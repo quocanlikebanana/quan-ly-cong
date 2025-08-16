@@ -1,0 +1,58 @@
+@import "tailwindcss";
+
+@theme {
+	--color-egyptian-blue-100: #030a1b;
+	--color-egyptian-blue-200: #071436;
+	--color-egyptian-blue-300: #0a1e52;
+	--color-egyptian-blue-400: #0d296d;
+	--color-egyptian-blue-500: #113388;
+	--color-egyptian-blue-600: #194ac8;
+	--color-egyptian-blue-700: #4070e7;
+	--color-egyptian-blue-800: #809fef;
+	--color-egyptian-blue-900: #bfcff7;
+	--color-egyptian-blue: #113388;
+
+	--color-true-blue-100: #0f1522;
+	--color-true-blue-200: #1d2a45;
+	--color-true-blue-300: #2c3f67;
+	--color-true-blue-400: #3b5489;
+	--color-true-blue-500: #4967aa;
+	--color-true-blue-600: #6a85bf;
+	--color-true-blue-700: #90a4cf;
+	--color-true-blue-800: #b5c2df;
+	--color-true-blue-900: #dae1ef;
+	--color-true-blue: #4967aa;
+
+	--color-vista-blue-100: #151c2d;
+	--color-vista-blue-200: #2a375a;
+	--color-vista-blue-300: #405387;
+	--color-vista-blue-400: #5970b1;
+	--color-vista-blue-500: #8798c7;
+	--color-vista-blue-600: #9eacd1;
+	--color-vista-blue-700: #b6c0dd;
+	--color-vista-blue-800: #ced5e8;
+	--color-vista-blue-900: #e7eaf4;
+	--color-vista-blue: #8798c7;
+
+	--color-lavender-web-100: #20283b;
+	--color-lavender-web-200: #405176;
+	--color-lavender-web-300: #657bac;
+	--color-lavender-web-400: #a0adcc;
+	--color-lavender-web-500: #dce1ec;
+	--color-lavender-web-600: #e2e6ef;
+	--color-lavender-web-700: #e9ecf3;
+	--color-lavender-web-800: #f0f3f7;
+	--color-lavender-web-900: #f8f9fb;
+	--color-lavender-web: #dce1ec;
+
+	--color-goldenrod-100: #2b1f03;
+	--color-goldenrod-200: #563e06;
+	--color-goldenrod-300: #815d08;
+	--color-goldenrod-400: #ad7c0b;
+	--color-goldenrod-500: #d99c0e;
+	--color-goldenrod-600: #f2b62c;
+	--color-goldenrod-700: #f5c861;
+	--color-goldenrod-800: #f8db96;
+	--color-goldenrod-900: #fcedca;
+	--color-goldenrod: #d99c0e;
+}

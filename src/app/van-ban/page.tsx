@@ -1,10 +1,68 @@
 import React from 'react'
+import { FileText } from 'lucide-react'
+import TemplateRow from './TemplateRow'
+import TemplateCard from './TemplateCard'
+import { templateMocks } from './template-mock'
+import Header from './Header'
 
-export default function page() {
+export default function VanBanPage({
+	searchParams,
+}: {
+	searchParams: {
+		search?: string;
+		category?: string;
+		view?: 'grid' | 'list';
+	}
+}) {
+	const { search = '', category = 'all', view = 'grid' } = searchParams;
+	const filteredDocuments = templateMocks;
+
 	return (
-		<div className='bg-egyptian-blue-500 text-goldenrod-900 p-4'>
-			<h1 className='text-2xl font-bold'>Van Ban Page</h1>
-			<p className='mt-2'>This is a sample page using custom Tailwind CSS colors.</p>
+		<div>
+			<Header />
+			<main className="max-w-7xl mx-auto px-6 py-8">
+				{/* Results Info */}
+				<div className="mb-6">
+					<p className="text-vista-blue-700">
+						Hiển thị {filteredDocuments.length} văn bản
+						{search && ` cho từ khóa "${search}"`}
+					</p>
+				</div>
+
+				{/* Document List */}
+				{filteredDocuments.length > 0 ? (
+					<div className={view === 'grid'
+						? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+						: "space-y-4"
+					}>
+						{filteredDocuments.map((document) => (
+							view === 'grid'
+								? (
+									<TemplateCard
+										key={document.id}
+										template={document}
+									/>
+								)
+								: (
+									<TemplateRow
+										key={document.id}
+										template={document}
+									/>
+								)
+						))}
+					</div>
+				) : (
+					<div className="text-center py-12">
+						<FileText className="w-16 h-16 text-vista-blue-400 mx-auto mb-4" />
+						<h3 className="text-xl font-semibold text-vista-blue-700 mb-2">
+							Không tìm thấy văn bản
+						</h3>
+						<p className="text-vista-blue-600">
+							Thử thay đổi từ khóa tìm kiếm hoặc bộ lọc
+						</p>
+					</div>
+				)}
+			</main>
 		</div>
 	)
 }

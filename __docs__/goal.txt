@@ -1,0 +1,11 @@
+Goal: An application for quickly fill-in legal documentations
+Pain-point: The input process is too slow and require formats
+Target audience: Office workers
+
+Objectives:
+- Able to quickly fill-in info and download as word documents
+Constraint: (Non-functional)
+- Templates can varies
+- Be convinient
+Features:
+- Choose template to fill

@@ -5,16 +5,16 @@ import TemplateCard from './TemplateCard'
 import { templateMocks } from './template-mock'
 import Header from './Header'
 
-export default function VanBanPage({
+export default async function VanBanPage({
 	searchParams,
 }: {
-	searchParams: {
+	searchParams: Promise<{
 		search?: string;
 		category?: string;
 		view?: 'grid' | 'list';
-	}
+	}>
 }) {
-	const { search = '', category = 'all', view = 'grid' } = searchParams;
+	const { search = '', category = 'all', view = 'grid' } = await searchParams;
 	const filteredDocuments = templateMocks;
 
 	return (

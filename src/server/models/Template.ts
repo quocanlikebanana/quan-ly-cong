@@ -6,8 +6,8 @@ interface ITemplate extends Document {
 	jsonSchema: object;
 	description?: string;
 	category?: string;
-	createdAt?: string;
-	updatedAt?: string;
+	createdAt?: Date;
+	updatedAt?: Date;
 }
 
 const TemplateSchema: Schema = new Schema<ITemplate>({
@@ -37,13 +37,16 @@ const TemplateSchema: Schema = new Schema<ITemplate>({
 	timestamps: true, // This adds createdAt and updatedAt automatically
 });
 
-// // Type-safe model export that prevents re-compilation during development
-// let Template: mongoose.Model<ITemplate>;
-// if (mongoose.models.Template) {
-// 	Template = mongoose.models.Template as mongoose.Model<ITemplate>;
-// } else {
-// 	Template = mongoose.model<ITemplate>('Template', TemplateSchema);
-// }
-// export default Template;
+// Type-safe model export that prevents re-compilation during development
+let Template: mongoose.Model<ITemplate>;
 
-export default mongoose.model<ITemplate>('Template', TemplateSchema);
+try {
+	// Try to retrieve an existing model
+	Template = mongoose.model<ITemplate>('Template');
+} catch {
+	// Create the model if it doesn't exist
+	Template = mongoose.model<ITemplate>('Template', TemplateSchema);
+}
+
+export default Template;
+

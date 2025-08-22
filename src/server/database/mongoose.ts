@@ -1,5 +1,6 @@
 import "server-only";
 import mongoose from 'mongoose';
+import configs from "@/lib/configs";
 
 const connection: { isConnected?: number } = {}
 
@@ -10,7 +11,7 @@ const connection: { isConnected?: number } = {}
  * @description Connects to MongoDB using Mongoose.
  */
 async function connectMongo() {
-	const mongoUri = process.env.MONGODB_URI
+	const mongoUri = configs.db.uri;
 	if (!mongoUri) {
 		throw new Error('Please define the MONGODB_URI environment variable inside .env.local');
 	}

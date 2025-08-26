@@ -2,8 +2,8 @@ import React from 'react'
 import { FileText } from 'lucide-react'
 import TemplateRow from './TemplateRow'
 import TemplateCard from './TemplateCard'
-import { templateMocks } from './template-mock'
 import Header from './Header'
+import { TemplatesQuery } from '@/query/templates.query'
 
 export default async function VanBanPage({
 	searchParams,
@@ -14,8 +14,12 @@ export default async function VanBanPage({
 		view?: 'grid' | 'list';
 	}>
 }) {
-	const { search = '', category = 'all', view = 'grid' } = await searchParams;
-	const filteredDocuments = templateMocks;
+	const { search = '', view = 'grid' } = await searchParams;
+	const templates = await TemplatesQuery.getAllTemplates({
+		search,
+		page: 1,
+		perPage: 100,
+	});
 
 	return (
 		<div>
@@ -24,28 +28,28 @@ export default async function VanBanPage({
 				{/* Results Info */}
 				<div className="mb-6">
 					<p className="text-vista-blue-700">
-						Hiển thị {filteredDocuments.length} văn bản
+						Hiển thị {templates.length} văn bản
 						{search && ` cho từ khóa "${search}"`}
 					</p>
 				</div>
 
 				{/* Document List */}
-				{filteredDocuments.length > 0 ? (
+				{templates.length > 0 ? (
 					<div className={view === 'grid'
 						? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
 						: "space-y-4"
 					}>
-						{filteredDocuments.map((document) => (
+						{templates.map((document) => (
 							view === 'grid'
 								? (
 									<TemplateCard
-										key={document.id}
+										key={document._id.toString()}
 										template={document}
 									/>
 								)
 								: (
 									<TemplateRow
-										key={document.id}
+										key={document._id.toString()}
 										template={document}
 									/>
 								)

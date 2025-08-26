@@ -1,16 +1,6 @@
-import mongoose, { Document, Schema } from 'mongoose';
+import mongoose, { Schema, InferSchemaType } from 'mongoose';
 
-interface ITemplate extends Document {
-	name: string;
-	key: string;
-	jsonSchema: object;
-	description?: string;
-	category?: string;
-	createdAt?: Date;
-	updatedAt?: Date;
-}
-
-const TemplateSchema: Schema = new Schema<ITemplate>({
+const TemplateSchema = new Schema({
 	name: {
 		type: String,
 		required: [true, 'Please provide a name for this template.'],
@@ -37,15 +27,17 @@ const TemplateSchema: Schema = new Schema<ITemplate>({
 	timestamps: true, // This adds createdAt and updatedAt automatically
 });
 
+type TemplateType = InferSchemaType<typeof TemplateSchema>;
+
 // Type-safe model export that prevents re-compilation during development
-let Template: mongoose.Model<ITemplate>;
+let Template: mongoose.Model<TemplateType>;
 
 try {
 	// Try to retrieve an existing model
-	Template = mongoose.model<ITemplate>('Template');
+	Template = mongoose.model<TemplateType>('Template');
 } catch {
 	// Create the model if it doesn't exist
-	Template = mongoose.model<ITemplate>('Template', TemplateSchema);
+	Template = mongoose.model<TemplateType>('Template', TemplateSchema);
 }
 
 export default Template;

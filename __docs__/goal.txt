@@ -1,11 +1,32 @@
+=============================================================================
+Project: QuanLyCong | Start: 10/08/2025
+=============================================================================
+
 Goal: An application for quickly fill-in legal documentations
 Pain-point: The input process is too slow and require formats
 Target audience: Office workers
 
+## 1 ## Requirement Gathering and Analysis
+
 Objectives:
+
 - Able to quickly fill-in info and download as word documents
-Constraint: (Non-functional)
+  Constraint: (Non-functional)
 - Templates can varies
 - Be convinient
-Features:
+  Features:
 - Choose template to fill
+
+## 2 ## Planning and Proposal
+
+[1] Proposal:
+
+- Web app
+- Develop by phases
+- Main tech: NextJS, MongoDB
+  - UI: ShadCN, Tailwind
+  - react-jsonschema-form
+
+[2] Phases:
+
+> > P1: Initial: Make basic features: Pick a template, load the form to fill-in, download

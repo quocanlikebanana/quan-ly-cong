@@ -23,6 +23,10 @@ const TemplateSchema = new Schema({
 		type: String,
 		maxlength: [50, 'Category cannot be more than 50 characters'],
 	},
+	isBookmarked: {
+		type: Boolean,
+		default: false,
+	},
 }, {
 	timestamps: true, // This adds createdAt and updatedAt automatically
 });

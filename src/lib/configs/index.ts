@@ -19,7 +19,8 @@ if (!parsed.success) {
 const env = parsed.data;
 
 const configs = {
-	appName: "My Next App",
+	appName: "Quan Ly Cong",
+	mode: process.env.NODE_ENV || "development",
 	db: {
 		uri: env.MONGODB_URI,
 	},

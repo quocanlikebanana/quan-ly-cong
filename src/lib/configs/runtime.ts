@@ -1,4 +1,4 @@
-let runtimeConfig: Record<string, any> | null = null;
+let runtimeConfig: Record<string, unknown> | null = null;
 
 export async function loadRuntimeConfig() {
 	if (runtimeConfig) return runtimeConfig;

@@ -2,7 +2,7 @@
 
 import { ServerActionResponse } from '@/common/network/response';
 import { ZodUtils } from '@/lib/zod-utils';
-import { S3Service } from '@/server/aws/s3';
+import { S3Service } from '@/server/aws/s3-service';
 import connectMongo from '@/server/database/mongoose';
 import Template from '@/server/models/Template';
 import { CreateTemplateType, CreateTemplateSchema } from '@/types/templates/template.schema';
@@ -76,7 +76,10 @@ export async function createTemplateAction(payload: CreateTemplateType): Promise
 					error: 'Validation failed: ' + error.message
 				};
 			}
-			if (error.name === 'MongoServerError' && (error as any).code === 11000) {
+			if (
+				error.name === 'MongoServerError' &&
+				(error as { code?: number }).code === 11000
+			) {
 				return {
 					success: false,
 					error: 'A template with this key already exists'

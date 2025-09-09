@@ -6,7 +6,7 @@ import { Search, Grid3X3, List } from 'lucide-react';
 import React from 'react'
 import { useQueryState } from 'nuqs';
 import Link from 'next/link';
-import { routes } from '@/lib/routes-utils';
+import { routes } from '@/lib/routes';
 
 export default function Header() {
 	const [viewMode, setViewMode] = useQueryState<'grid' | 'list'>("view", {

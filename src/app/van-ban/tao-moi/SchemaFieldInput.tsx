@@ -1,5 +1,5 @@
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { CreateTemplateType } from '@/types/templates/template.schema';
+import { CreateTemplateType } from '@/features/templates/schemas/create-template.schema';
 import React, { useState, useCallback } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import Form from '@rjsf/core';

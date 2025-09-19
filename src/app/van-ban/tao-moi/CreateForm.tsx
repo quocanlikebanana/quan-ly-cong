@@ -1,11 +1,11 @@
 "use client";
 
-import { createTemplateAction } from '@/actions/create-template.action';
+import { createTemplateAction } from '@/features/templates/actions/create-template.action';
 import { Button } from '@/components/ui/button';
 import { FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage, Form } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { CreateTemplateType, CreateTemplateSchema } from '@/types/templates/template.schema';
+import { CreateTemplateType, CreateTemplateSchema } from '@/features/templates/schemas/create-template.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { LoaderCircle } from 'lucide-react';
 import { useRouter } from 'next/navigation';

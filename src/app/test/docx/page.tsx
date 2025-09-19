@@ -1,9 +1,9 @@
-import { DocxServiceServer } from '@/server/docx/docx-service.server'
+import { FileTransport } from '@/server/infra/file-transport'
 import React from 'react'
 import DownloadButton from './DownloadButton'
 
 export default async function page() {
-    const fileBase64String = await DocxServiceServer.readDocxFile("BIEU MAU XU LY VPHC.docx", "local");
+    const fileBase64String = await FileTransport.readDocxFile("BIEU MAU XU LY VPHC.docx", "local");
 
     return (
         <div className="p-4">

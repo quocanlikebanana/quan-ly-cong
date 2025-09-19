@@ -1,6 +1,6 @@
 "use client";
 
-import { TextFieldSchema } from '@/model/schema';
+import { TemplateTextFieldView } from '@/features/templates/views/schema';
 import React from 'react'
 
 export default function TextFieldItem({
@@ -8,7 +8,7 @@ export default function TextFieldItem({
     value,
     onValueChange,
 }: {
-    field: TextFieldSchema;
+    field: TemplateTextFieldView;
     value: string | undefined;
     onValueChange: (value: string) => void;
 }) {

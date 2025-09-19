@@ -1,4 +1,3 @@
-// s3Service.ts
 import configs from "@/lib/configs";
 import { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
 import { Readable } from "stream";

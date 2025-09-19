@@ -4,7 +4,12 @@ export class MongoError extends Error {
 		this.name = "MongoError";
 	}
 
-	static isDuplicateKeyError(error: any): boolean {
-		return error && error.code === 11000;
+	static isDuplicateKeyError(error: unknown): boolean {
+		return (
+			typeof error === 'object' &&
+			error !== null &&
+			'code' in error &&
+			error.code === 11000
+		);
 	}
 }

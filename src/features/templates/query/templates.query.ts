@@ -1,5 +1,5 @@
-import connectMongo from "@/server/database/mongoose";
-import Template from "@/server/models/Template";
+import connectMongo from "@/server/infra/database/mongoose";
+import TemplateModel from "@/server/models/template-model";
 
 export class TemplatesQuery {
 	static async getAllTemplates({
@@ -13,7 +13,7 @@ export class TemplatesQuery {
 	}) {
 		await connectMongo();
 
-		const templates = await Template.find({
+		const templates = await TemplateModel.find({
 			name: {
 				$regex: search || '',
 				$options: 'i',
@@ -28,7 +28,7 @@ export class TemplatesQuery {
 
 	static async getTemplateById(id: string) {
 		await connectMongo();
-		const template = await Template.findById(id).lean();
+		const template = await TemplateModel.findById(id).lean();
 		return template;
 	}
 }

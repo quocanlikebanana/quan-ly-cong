@@ -1,4 +1,4 @@
-export type TextFieldSchema = {
+export type TemplateTextFieldView = {
     key: string;
     label: string;
     placeholder?: string;

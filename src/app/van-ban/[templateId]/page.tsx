@@ -1,5 +1,5 @@
-import Template from '@/server/models/Template';
-import connectMongo from '@/server/database/mongoose';
+import TemplateModel from '@/server/models/template-model';
+import connectMongo from '@/server/infra/database/mongoose';
 import DocumentEditor from './document-editor'
 import { mockPastEdits } from './mock'
 import { notFound } from 'next/navigation';
@@ -18,7 +18,7 @@ export default async function DocumentPage({
 		await connectMongo();
 
 		// Fetch template by ID
-		const template = await Template.findById(templateId).lean();
+		const template = await TemplateModel.findById(templateId).lean();
 
 		if (!template) {
 			notFound();
@@ -29,7 +29,7 @@ export default async function DocumentPage({
 			_id: template._id.toString(),
 			name: template.name,
 			key: template.key,
-			jsonSchema: template.jsonSchema,
+			jsonSchema: template.fields,
 			description: template.description || '',
 			category: template.category || '',
 			createdAt: template.createdAt?.toISOString(),

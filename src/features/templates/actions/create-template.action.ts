@@ -1,13 +1,13 @@
 'use server';
 
 import { ServerActionResponse } from '@/common/network/response';
-import { ZodUtils } from '@/lib/zod-utils';
-import { S3Service } from '@/server/aws/s3-service';
-import connectMongo from '@/server/database/mongoose';
-import Template from '@/server/models/Template';
-import { CreateTemplateType, CreateTemplateSchema } from '@/types/templates/template.schema';
+import { ZodUtils } from '@/client/utils/zod-utils';
+import connectMongo from '@/server/infra/database/mongoose';
+import TemplateModel from '@/server/models/template-model';
+import { CreateTemplateType, CreateTemplateSchema } from '@/features/templates/schemas/create-template.schema';
 import { revalidatePath } from 'next/cache';
 import { v4 as uuidv4 } from 'uuid';
+import { FileTransport } from '@/server/infra/file-transport';
 
 /**
  * Server action to create a template.
@@ -24,26 +24,26 @@ export async function createTemplateAction(payload: CreateTemplateType): Promise
 			};
 		}
 
-		const { name, schema: jsonSchema, file, description, category } = parsedPayload.data;
+		const { name, fields, file, description, category } = parsedPayload.data;
 
 		// Generate a unique key for the file
 		const key = uuidv4();
 		const uniqueKey = `${key}-${file.name}`;
 
-		// Upload file to S3
+		// Upload file
 		const fileBuffer = Buffer.from(await file.arrayBuffer());
-		await S3Service.uploadFile(uniqueKey, fileBuffer, file.type);
+		await FileTransport.writeDocxFile(fileBuffer, uniqueKey, "local");
 
 		// Connect to MongoDB
 		await connectMongo();
 
 		// Create new template
-		const newTemplate = new Template({
+		const newTemplate = new TemplateModel({
 			name: name,
 			key: uniqueKey,
-			jsonSchema: jsonSchema,
 			description: description,
 			category: category,
+			fields: fields,
 		});
 
 		// Save to database

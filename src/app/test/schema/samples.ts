@@ -1,6 +1,6 @@
-import { TextFieldSchema } from "@/model/schema";
+import { TemplateTextFieldView } from "@/features/templates/views/schema";
 
-export const samplesTextFields: TextFieldSchema[] = [
+export const samplesTextFields: TemplateTextFieldView[] = [
     {
         key: "cancu1",
         label: "Căn cứ 1",

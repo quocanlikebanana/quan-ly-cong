@@ -1,4 +1,5 @@
 import mongoose, { Schema, InferSchemaType } from 'mongoose';
+import TemplateFieldSubSchema from './template-field.schema';
 
 const TemplateSchema = new Schema({
 	name: {
@@ -11,10 +12,6 @@ const TemplateSchema = new Schema({
 		required: [true, 'Please provide a key for this template.'],
 		unique: true,
 	},
-	jsonSchema: {
-		type: Schema.Types.Mixed,
-		required: [true, 'Please provide a JSON schema for this template.'],
-	},
 	description: {
 		type: String,
 		maxlength: [500, 'Description cannot be more than 500 characters'],
@@ -23,10 +20,7 @@ const TemplateSchema = new Schema({
 		type: String,
 		maxlength: [50, 'Category cannot be more than 50 characters'],
 	},
-	isBookmarked: {
-		type: Boolean,
-		default: false,
-	},
+	fields: [TemplateFieldSubSchema], // Array of template fields
 }, {
 	timestamps: true, // This adds createdAt and updatedAt automatically
 });
@@ -34,15 +28,14 @@ const TemplateSchema = new Schema({
 type TemplateType = InferSchemaType<typeof TemplateSchema>;
 
 // Type-safe model export that prevents re-compilation during development
-let Template: mongoose.Model<TemplateType>;
+let TemplateModel: mongoose.Model<TemplateType>;
 
 try {
 	// Try to retrieve an existing model
-	Template = mongoose.model<TemplateType>('Template');
+	TemplateModel = mongoose.model<TemplateType>('Template');
 } catch {
 	// Create the model if it doesn't exist
-	Template = mongoose.model<TemplateType>('Template', TemplateSchema);
+	TemplateModel = mongoose.model<TemplateType>('Template', TemplateSchema);
 }
 
-export default Template;
-
+export default TemplateModel;

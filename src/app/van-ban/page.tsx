@@ -1,9 +1,9 @@
 import React from 'react'
 import { FileText } from 'lucide-react'
 import TemplateRow from './TemplateRow'
-import TemplateCard from './TemplateCard'
+import TemplateCard from '../../stories/atoms/template-card.tsx/TemplateCard'
 import Header from './Header'
-import { TemplatesQuery } from '@/query/templates.query'
+import { TemplatesQuery } from '@/features/templates/query/templates.query'
 
 export default async function VanBanPage({
 	searchParams,

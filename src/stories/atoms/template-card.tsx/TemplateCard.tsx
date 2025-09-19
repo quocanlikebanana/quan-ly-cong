@@ -1,4 +1,3 @@
-import { TemplateCore } from '@/app/van-ban/template-types';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Calendar } from 'lucide-react';

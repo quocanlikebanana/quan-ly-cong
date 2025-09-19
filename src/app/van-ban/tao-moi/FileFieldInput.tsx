@@ -1,7 +1,7 @@
 import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { AlertDialog, AlertDialogAction, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog'
-import { CreateTemplateType } from '@/types/templates/template.schema';
+import { CreateTemplateType } from '@/features/templates/schemas/create-template.schema';
 import React, { useState } from 'react'
 import { UseFormReturn } from 'react-hook-form';
 import { Loader } from 'lucide-react';

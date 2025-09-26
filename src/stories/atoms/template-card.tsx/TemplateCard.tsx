@@ -3,8 +3,9 @@ import { Badge } from '@/components/ui/badge';
 import { Calendar } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
+import { TemplateItemView } from '@/features/templates/views/template.view';
 
-export default function TemplateCard({ template }: { template: TemplateCore }) {
+export default function TemplateCard({ template }: { template: TemplateItemView }) {
 	const createdDate = new Date(template.createdAt || Date.now());
 	const formattedDate = createdDate.toLocaleDateString('vi-VN', {
 		day: '2-digit',

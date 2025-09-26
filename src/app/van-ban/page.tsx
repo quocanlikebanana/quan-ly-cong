@@ -4,6 +4,9 @@ import TemplateRow from './TemplateRow'
 import TemplateCard from '../../stories/atoms/template-card.tsx/TemplateCard'
 import Header from './Header'
 import { TemplatesQuery } from '@/features/templates/query/templates.query'
+import { DEFAULT_PAGING } from '@/features/shared/paging.type'
+import TablePagination from '@/components/common/TablePagination'
+import ResultsInfo from '@/components/common/ResultsInfo'
 
 export default async function VanBanPage({
 	searchParams,
@@ -12,13 +15,16 @@ export default async function VanBanPage({
 		search?: string;
 		category?: string;
 		view?: 'grid' | 'list';
+		page?: string;
 	}>
 }) {
-	const { search = '', view = 'grid' } = await searchParams;
-	const templates = await TemplatesQuery.getAllTemplates({
+	const { search = '', view = 'grid', page: pageParam = '1' } = await searchParams;
+	const currentPage = Math.max(1, parseInt(pageParam));
+
+	const pagedTemplates = await TemplatesQuery.getAllTemplates({
 		search,
-		page: 1,
-		perPage: 100,
+		page: currentPage,
+		perPage: DEFAULT_PAGING.perPage,
 	});
 
 	return (
@@ -26,35 +32,46 @@ export default async function VanBanPage({
 			<Header />
 			<main className="max-w-7xl mx-auto px-6 py-8">
 				{/* Results Info */}
-				<div className="mb-6">
-					<p className="text-vista-blue-700">
-						Hiển thị {templates.length} văn bản
-						{search && ` cho từ khóa "${search}"`}
-					</p>
-				</div>
+				<ResultsInfo
+					pagedResult={pagedTemplates}
+					search={search}
+					itemName="văn bản"
+				/>
 
 				{/* Document List */}
-				{templates.length > 0 ? (
-					<div className={view === 'grid'
-						? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-						: "space-y-4"
-					}>
-						{templates.map((document) => (
-							view === 'grid'
-								? (
-									<TemplateCard
-										key={document._id.toString()}
-										template={document}
-									/>
-								)
-								: (
-									<TemplateRow
-										key={document._id.toString()}
-										template={document}
-									/>
-								)
-						))}
-					</div>
+				{pagedTemplates.data.length > 0 ? (
+					<>
+						<div className={view === 'grid'
+							? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8"
+							: "space-y-4 mb-8"
+						}>
+							{pagedTemplates.data.map((template) => (
+								view === 'grid'
+									? (
+										<TemplateCard
+											key={template.id}
+											template={template}
+										/>
+									)
+									: (
+										<TemplateRow
+											key={template.id}
+											template={template}
+										/>
+									)
+							))}
+						</div>
+
+						{/* Pagination */}
+						{pagedTemplates.totalPages > 1 && (
+							<TablePagination
+								pagedResult={pagedTemplates}
+								currentPage={currentPage}
+								search={search}
+								additionalParams={view !== 'grid' ? { view } : {}}
+							/>
+						)}
+					</>
 				) : (
 					<div className="text-center py-12">
 						<FileText className="w-16 h-16 text-vista-blue-400 mx-auto mb-4" />

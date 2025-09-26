@@ -31,7 +31,8 @@ const TemplateFieldSubSchema = new Schema({
         min: [0, 'Order must be a positive integer'],
     },
 }, {
-    _id: true, // Enable _id for sub-documents
+    // Disable _id for sub-documents. We will fetch whole fields in template.
+    _id: false,
 });
 
 export default TemplateFieldSubSchema;

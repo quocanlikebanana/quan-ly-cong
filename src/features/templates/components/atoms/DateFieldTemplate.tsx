@@ -1,3 +1,5 @@
+"use client";
+
 import { DateOnly } from '@/features/shared/date.type'
 import React, { useMemo, useCallback } from 'react'
 import { Calendar } from '@/components/ui/calendar';

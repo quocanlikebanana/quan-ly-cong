@@ -3,7 +3,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { CircleQuestionMark } from 'lucide-react';
 import React from 'react'
 
-export default function TemplateFieldWarpper({
+export default function FieldInfoWarpper({
     label,
     description,
     children,

@@ -3,7 +3,7 @@
 import { TemplateTextFieldView } from '@/features/templates/views/schema'
 import React, { useCallback, useState } from 'react'
 import TextFieldItem from './TextFieldItem';
-import { DocxServiceClient } from '@/server/docx/docx-service.client';
+import { DocxTemplaterRenderer } from '@/features/templates/logic/renderer/docxtemplater-renderer';
 import { DownloadDocxUtils } from '@/client/utils/download-docx';
 
 export default function DocumentFormContainer({
@@ -21,7 +21,7 @@ export default function DocumentFormContainer({
 
     const handleApplyTemplate = useCallback(() => {
         const binaryString = atob(fileBase64String);
-        const fileBuffer = DocxServiceClient.renderDocxFile(formData, binaryString);
+        const fileBuffer = DocxTemplaterRenderer.renderDocxFile(formData, binaryString);
         DownloadDocxUtils.downloadFromBuffer(fileBuffer);
     }, [formData, fileBase64String]);
 

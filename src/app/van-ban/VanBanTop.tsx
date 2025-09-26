@@ -8,7 +8,7 @@ import { useQueryState } from 'nuqs';
 import Link from 'next/link';
 import { routes } from '@/client/routes';
 
-export default function Header() {
+export default function VanBanTop() {
 	const [viewMode, setViewMode] = useQueryState<'grid' | 'list'>("view", {
 		defaultValue: 'grid',
 		parse: (value) => value as 'grid' | 'list',

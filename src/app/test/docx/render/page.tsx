@@ -1,6 +1,6 @@
 import { FileTransport } from "@/server/infra/file-transport";
 import DownloadButton from "./DownloadButton";
-import { DocxServiceClient } from "@/server/docx/docx-service.client";
+import { DocxTemplaterRenderer } from "@/features/templates/logic/renderer/docxtemplater-renderer";
 
 export default async function page() {
     const fileBase64String = await FileTransport.readDocxFile("BIEU MAU XU LY VPHC.docx", "local");
@@ -8,7 +8,7 @@ export default async function page() {
         return atob(base64);
     };
     const fileBinaryString = convertBase64ToBinary(fileBase64String);
-    const rendered = DocxServiceClient.renderDocxFile({
+    const rendered = DocxTemplaterRenderer.renderDocxFile({
         "cancu1": "Nghị định 123/2023/NĐ-CP",
         "cancu2": "Nghị định 124/2023/NĐ-CP",
     }, fileBinaryString);

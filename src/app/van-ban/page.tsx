@@ -1,8 +1,8 @@
 import React from 'react'
 import { FileText } from 'lucide-react'
 import TemplateRow from './TemplateRow'
-import TemplateCard from '../../stories/atoms/template-card.tsx/TemplateCard'
-import Header from './Header'
+import TemplateCard from './TemplateCard'
+import VanBanTop from './VanBanTop'
 import { TemplatesQuery } from '@/features/templates/query/templates.query'
 import { DEFAULT_PAGING } from '@/features/shared/paging.type'
 import TablePagination from '@/components/common/TablePagination'
@@ -29,7 +29,7 @@ export default async function VanBanPage({
 
 	return (
 		<div>
-			<Header />
+			<VanBanTop />
 			<main className="max-w-7xl mx-auto px-6 py-8">
 				{/* Results Info */}
 				<ResultsInfo

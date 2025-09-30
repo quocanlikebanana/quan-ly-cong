@@ -26,7 +26,7 @@ import {
 import { Check, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { CATEGORIES } from "../constants";
-import { CreateTemplateType } from "@/features/templates/payloads/create-template.schema";
+import { CreateTemplateType } from "@/features/templates/actions/create-template.schema";
 
 interface CategorySelectProps {
     control: Control<CreateTemplateType>;

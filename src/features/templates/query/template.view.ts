@@ -4,10 +4,9 @@ export type TemplateItemView = {
     /**
      * To retrieve file
      */
-    key: string;
     description?: string | null;
     category?: string | null;
-    tags: string[];
+    tags?: string[];
     createdAt: string;
     updatedAt: string;
 };
@@ -23,7 +22,7 @@ export type TemplateFieldView = {
     /**
      * Order used for displaying fields in the UI
      */
-    order: number;
+    order?: number;
 }
 
 export type TemplateDetailView = TemplateItemView & {

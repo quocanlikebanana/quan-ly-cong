@@ -1,4 +1,4 @@
-import { FileTransport } from '@/server/infra/file-transport'
+import { FileTransport } from '@/infra/file-transport'
 import React from 'react'
 import DownloadButton from './DownloadButton'
 

@@ -3,9 +3,13 @@ import { Badge } from '@/components/ui/badge';
 import { Calendar } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
-import { TemplateItemView } from '@/features/templates/views/template.view';
+import { TemplateItemProps } from './van-ban-page.type';
 
-export default function TemplateCard({ template }: { template: TemplateItemView }) {
+export default function TemplateCard({
+	template
+}: {
+	template: TemplateItemProps;
+}) {
 	const createdDate = new Date(template.createdAt || Date.now());
 	const formattedDate = createdDate.toLocaleDateString('vi-VN', {
 		day: '2-digit',

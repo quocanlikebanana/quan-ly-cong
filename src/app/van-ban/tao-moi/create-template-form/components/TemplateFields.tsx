@@ -12,7 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Plus, Trash2 } from "lucide-react";
-import { CreateTemplateType } from "@/features/templates/payloads/create-template.schema";
+import { CreateTemplateType } from "@/features/templates/actions/create-template.schema";
 
 interface TemplateFieldsProps {
     control: Control<CreateTemplateType>;

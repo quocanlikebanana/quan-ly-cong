@@ -8,7 +8,7 @@ export class DocxTemplaterRenderer implements IRendererBase {
 
 	constructor(
 		private readonly docFileBinary: string,
-		private readonly jsonData: Record<string, unknown>,
+		private readonly jsonData: unknown,
 	) { }
 
 	render(): Buffer<ArrayBufferLike> {

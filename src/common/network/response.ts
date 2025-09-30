@@ -1,4 +1,4 @@
-export type ServerActionResponse<T = any> = {
+export type ServerActionResponse<T = { id: string }> = {
 	success: true;
 	data: T;
 } | {

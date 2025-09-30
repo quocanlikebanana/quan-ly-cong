@@ -3,7 +3,7 @@
 import { TemplateTextFieldView } from '@/features/templates/views/schema'
 import React, { useCallback, useState } from 'react'
 import TextFieldItem from './TextFieldItem';
-import { DocxTemplaterRenderer } from '@/features/templates/logic/renderer/docxtemplater-renderer';
+import { DocxTemplaterRenderer } from '@/features/templates/modules/render/renderer/docxtemplater-renderer';
 import { DownloadDocxUtils } from '@/client/utils/download-docx';
 
 export default function DocumentFormContainer({

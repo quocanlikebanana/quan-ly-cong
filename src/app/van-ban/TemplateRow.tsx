@@ -1,12 +1,12 @@
-import { TemplateItemView } from '@/features/templates/views/template.view'
 import { Badge } from '@/components/ui/badge'
 import Link from 'next/link';
 import React from 'react'
+import { TemplateItemProps } from './van-ban-page.type';
 
 export default function TemplateRow({
 	template,
 }: {
-	template: TemplateItemView;
+	template: TemplateItemProps;
 }) {
 	const formattedDate = template.createdAt
 		? new Date(template.createdAt).toLocaleDateString('vi-VN', {

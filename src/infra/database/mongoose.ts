@@ -17,7 +17,7 @@ async function connectMongo() {
 	}
 
 	if (connection.isConnected) {
-		console.log('MongoDB is already connected');
+		// console.log('MongoDB is already connected');
 		return;
 	}
 

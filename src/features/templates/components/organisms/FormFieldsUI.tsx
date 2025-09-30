@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import { TemplateCommonField, TemplateValues } from "../../common/field-schema"
+import { TemplateCommonField, TemplateValues } from "../../schemas/field-schema"
 import FieldFactory from "../molecules/FieldFactory";
 
 export default function FormFieldsUI({
@@ -27,11 +27,12 @@ export default function FormFieldsUI({
         }) : prev);
     }, []);
 
-    return (
+    return templateFields.map((field, index) => (
         <FieldFactory
-            itemSchema={templateFields}
+            key={index}
+            itemSchema={field}
             onFieldDataChange={handleFieldDataChange}
             templateValues={templateValues}
         />
-    )
+    ));
 }

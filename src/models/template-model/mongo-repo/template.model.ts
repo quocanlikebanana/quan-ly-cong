@@ -1,16 +1,17 @@
 import mongoose, { Schema, InferSchemaType } from 'mongoose';
-import TemplateFieldSubSchema from './template-field.schema';
+import TemplateFieldSubSchema from './template-field.model';
+import { TemplateData } from '../template.data';
 
-const TemplateSchema = new Schema({
+const TemplateSchema = new Schema<TemplateData>({
+	id: {
+		type: String,
+		// required: [true, 'Please provide a key for this template.'],
+		// unique: true,
+	},
 	name: {
 		type: String,
 		required: [true, 'Please provide a name for this template.'],
 		maxlength: [100, 'Name cannot be more than 100 characters'],
-	},
-	key: {
-		type: String,
-		required: [true, 'Please provide a key for this template.'],
-		unique: true,
 	},
 	description: {
 		type: String,
@@ -24,13 +25,16 @@ const TemplateSchema = new Schema({
 		type: [String],
 		default: [],
 	},
-	fields: [TemplateFieldSubSchema], // Array of template fields
+	fields: [{
+		type: TemplateFieldSubSchema,
+		required: [true, 'Template must have at least one field.'],
+	}]
 }, {
-	id: true,
+	id: false,
 	timestamps: true, // This adds createdAt and updatedAt automatically
 });
 
-type TemplateModelType = InferSchemaType<typeof TemplateSchema>;
+export type TemplateModelType = InferSchemaType<typeof TemplateSchema>;
 
 // Type-safe model export that prevents re-compilation during development
 let TemplateModel: mongoose.Model<TemplateModelType>;

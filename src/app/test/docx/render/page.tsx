@@ -1,6 +1,6 @@
-import { FileTransport } from "@/server/infra/file-transport";
+import { FileTransport } from "@/infra/file-transport";
 import DownloadButton from "./DownloadButton";
-import { DocxTemplaterRenderer } from "@/features/templates/logic/renderer/docxtemplater-renderer";
+import { DocxTemplaterRenderer } from "@/features/templates/modules/render/renderer/docxtemplater-renderer";
 
 export default async function page() {
     const fileBase64String = await FileTransport.readDocxFile("BIEU MAU XU LY VPHC.docx", "local");

@@ -1,7 +1,7 @@
 import React from 'react'
 import { samplesTextFields } from './samples'
 import DocumentFormContainer from '../../../components/domain/DocumentFormContainer'
-import { FileTransport } from '@/server/infra/file-transport'
+import { FileTransport } from '@/infra/file-transport'
 
 export default async function page() {
     const fileBase64String = await FileTransport.readDocxFile("BIEU MAU XU LY VPHC.docx", "local");

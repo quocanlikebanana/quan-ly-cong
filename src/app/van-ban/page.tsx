@@ -3,10 +3,10 @@ import { FileText } from 'lucide-react'
 import TemplateRow from './TemplateRow'
 import TemplateCard from './TemplateCard'
 import VanBanTop from './VanBanTop'
-import { TemplatesQuery } from '@/features/templates/query/templates.query'
 import { DEFAULT_PAGING } from '@/features/shared/paging.type'
 import TablePagination from '@/components/common/TablePagination'
 import ResultsInfo from '@/components/common/ResultsInfo'
+import queryTemplates from '@/features/templates/query/query-templates'
 
 export default async function VanBanPage({
 	searchParams,
@@ -21,7 +21,7 @@ export default async function VanBanPage({
 	const { search = '', view = 'grid', page: pageParam = '1' } = await searchParams;
 	const currentPage = Math.max(1, parseInt(pageParam));
 
-	const pagedTemplates = await TemplatesQuery.getAllTemplates({
+	const pagedTemplates = await queryTemplates({
 		search,
 		page: currentPage,
 		perPage: DEFAULT_PAGING.perPage,

@@ -2,12 +2,11 @@
 
 import { ServerActionResponse } from '@/common/network/response';
 import { ZodUtils } from '@/client/utils/zod-utils';
-import connectMongo from '@/server/infra/database/mongoose';
-import TemplateModel from '@/server/models/template-model';
-import { CreateTemplateType, CreateTemplateSchema } from '@/features/templates/payloads/create-template.schema';
+import { CreateTemplateType, CreateTemplateSchema } from '@/features/templates/actions/create-template.schema';
 import { revalidatePath } from 'next/cache';
 import { v4 as uuidv4 } from 'uuid';
-import { FileTransport } from '@/server/infra/file-transport';
+import { FileTransport } from '@/infra/file-transport';
+import { TemplateMongoRepository } from '@/models/template-model/mongo-repo';
 
 /**
  * Server action to create a template.
@@ -24,46 +23,28 @@ export async function createTemplateAction(payload: CreateTemplateType): Promise
 			};
 		}
 
-		const { name, fields, file, description, category, tags } = parsedPayload.data;
 
 		// Generate a unique key for the file
-		const key = uuidv4();
-		const uniqueKey = `${key}-${file.name}`;
+		const id = uuidv4();
+		const uniqueKey = `${id}-${parsedPayload.data.file.name}`;
 
 		// Upload file
-		const fileBuffer = Buffer.from(await file.arrayBuffer());
+		const fileBuffer = Buffer.from(await parsedPayload.data.file.arrayBuffer());
 		await FileTransport.writeDocxFile(fileBuffer, uniqueKey, "local");
 
-		// Connect to MongoDB
-		await connectMongo();
-
-		// Create new template
-		const newTemplate = new TemplateModel({
-			name: name,
-			key: uniqueKey,
-			description: description,
-			category: category,
-			fields: fields,
-			tags: tags || [],
-		});
-
 		// Save to database
-		const savedTemplate = await newTemplate.save();
+		const repo = new TemplateMongoRepository();
+		await repo.create({
+			...parsedPayload.data,
+			id: id
+		});
 
 		// Revalidate the templates page to show the new template
 		revalidatePath('/van-ban');
 
 		return {
 			success: true,
-			data: {
-				id: savedTemplate._id,
-				name: savedTemplate.name,
-				key: savedTemplate.key,
-				description: savedTemplate.description,
-				category: savedTemplate.category,
-				createdAt: savedTemplate.createdAt,
-				updatedAt: savedTemplate.updatedAt,
-			}
+			data: { id: id }
 		};
 
 	} catch (error) {

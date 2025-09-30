@@ -2,7 +2,7 @@
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
-import { CreateTemplateSchema, CreateTemplateType } from "@/features/templates/payloads/create-template.schema";
+import { CreateTemplateSchema, CreateTemplateType } from "@/features/templates/actions/create-template.schema";
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import {

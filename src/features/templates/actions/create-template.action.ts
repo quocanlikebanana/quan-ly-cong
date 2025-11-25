@@ -1,7 +1,7 @@
 'use server';
 
-import { ServerActionResponse } from '@/common/network/response';
-import { ZodUtils } from '@/client/utils/zod-utils';
+import { ServerActionResponse } from '@/types/server-action-response';
+import { ZodUtils } from '@/lib/utils/zod-utils';
 import { CreateTemplateType, CreateTemplateSchema } from '@/features/templates/actions/create-template.schema';
 import { revalidatePath } from 'next/cache';
 import { v4 as uuidv4 } from 'uuid';

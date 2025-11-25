@@ -1,11 +1,11 @@
 import connectMongo from "@/infra/database/mongoose";
-import { TemplateData, TemplateDataCreate, TemplateDataQuery, TemplateDataUpdate } from "../template.data";
+import { TemplateDataDto, TemplateDataCreateDto, TemplateDataQueryDto, TemplateDataUpdateDto } from "../template.dto";
 import { ITemplateRepository } from "../template.repo";
 import { PagedResult } from "@/features/shared/paging.type";
 import TemplateModel from "./template.model";
 
 export class TemplateMongoRepository implements ITemplateRepository {
-    async findAll(query: TemplateDataQuery): Promise<PagedResult<TemplateData>> {
+    async findAll(query: TemplateDataQueryDto): Promise<PagedResult<TemplateDataDto>> {
         await connectMongo();
         const { search, perPage, page } = query;
         const searchQuery = search
@@ -20,7 +20,7 @@ export class TemplateMongoRepository implements ITemplateRepository {
             .find(searchQuery)
             .skip((page - 1) * perPage)
             .limit(perPage)
-            .lean<TemplateData[]>()
+            .lean<TemplateDataDto[]>()
             ;
         const total = await TemplateModel.countDocuments(searchQuery);
         return {
@@ -32,13 +32,13 @@ export class TemplateMongoRepository implements ITemplateRepository {
         };
     }
 
-    async findById(id: string): Promise<TemplateData | null> {
+    async findById(id: string): Promise<TemplateDataDto | null> {
         await connectMongo();
-        const template = await TemplateModel.findById(id).lean<TemplateData>();
+        const template = await TemplateModel.findById(id).lean<TemplateDataDto>();
         return template;
     }
 
-    async create(data: TemplateDataCreate): Promise<{ id: string }> {
+    async create(data: TemplateDataCreateDto): Promise<{ id: string }> {
         await connectMongo();
         const newTemplate = await TemplateModel.create({
             ...data,
@@ -46,7 +46,7 @@ export class TemplateMongoRepository implements ITemplateRepository {
         return { id: newTemplate.id };
     }
 
-    async update(id: string, data: TemplateDataUpdate): Promise<void> {
+    async update(id: string, data: TemplateDataUpdateDto): Promise<void> {
         await connectMongo();
         await TemplateModel.findByIdAndUpdate(id, data);
     }

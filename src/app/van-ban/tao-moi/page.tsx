@@ -1,5 +1,5 @@
 import React from 'react';
-import CreateTemplateForm from './create-template-form';
+import CreateTemplateForm from './components/create-template-form';
 
 export default function TaoMoiVanBanPage() {
 	return (

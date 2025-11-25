@@ -1,7 +1,7 @@
 import { Schema } from "mongoose";
-import { TemplateFieldData } from "../template.data";
+import { TemplateFieldDataDto } from "../template.dto";
 
-const TemplateFieldSubSchema = new Schema<TemplateFieldData>({
+const TemplateFieldSubSchema = new Schema<TemplateFieldDataDto>({
     type: {
         type: String,
         required: [true, 'Field type is required'],

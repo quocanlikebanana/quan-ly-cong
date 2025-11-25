@@ -1,8 +1,8 @@
 import mongoose, { Schema, InferSchemaType } from 'mongoose';
 import TemplateFieldSubSchema from './template-field.model';
-import { TemplateData } from '../template.data';
+import { TemplateDataDto } from '../template.dto';
 
-const TemplateSchema = new Schema<TemplateData>({
+const TemplateSchema = new Schema<TemplateDataDto>({
 	id: {
 		type: String,
 		// required: [true, 'Please provide a key for this template.'],

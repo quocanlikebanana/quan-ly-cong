@@ -1,5 +1,5 @@
 import connectMongo from "@/infra/database/mongoose";
-import { TemplateDataDto, TemplateDataCreateDto, TemplateDataQueryDto, TemplateDataUpdateDto } from "../template.dto";
+import { TemplateDataDto, TemplateDataCreateDto, TemplateDataQueryDto, TemplateDataUpdateDto, TemplateDataDtoParser } from "../template.dto";
 import { ITemplateRepository } from "../template.repo";
 import { PagedResult } from "@/features/shared/paging.type";
 import TemplateModel from "./template.model";
@@ -20,11 +20,13 @@ export class TemplateMongoRepository implements ITemplateRepository {
             .find(searchQuery)
             .skip((page - 1) * perPage)
             .limit(perPage)
-            .lean<TemplateDataDto[]>()
+            .lean()
             ;
+        const stripped = templates.map(t => TemplateDataDtoParser.fromLean(t));
+
         const total = await TemplateModel.countDocuments(searchQuery);
         return {
-            data: templates,
+            data: stripped,
             total,
             totalPages: Math.ceil(total / perPage),
             currentPage: page,

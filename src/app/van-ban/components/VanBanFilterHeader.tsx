@@ -8,13 +8,15 @@ import { useQueryState } from 'nuqs';
 import Link from 'next/link';
 import { routes } from '@/client/routes';
 
-export default function VanBanTop() {
+export default function VanBanFilterHeader() {
 	const [viewMode, setViewMode] = useQueryState<'grid' | 'list'>("view", {
 		defaultValue: 'grid',
 		parse: (value) => value as 'grid' | 'list',
+		shallow: false,
 	});
 	const [searchQuery, setSearchQuery] = useQueryState("search", {
 		defaultValue: '',
+		shallow: false,
 	});
 
 	return (

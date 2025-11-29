@@ -1,24 +1,24 @@
 import React from 'react'
 import { FileText } from 'lucide-react'
 import TemplateCard from './components/TemplateCard'
-import VanBanTop from './components/VanBanFilterHeader'
+import VanBanFilterHeader from './components/VanBanFilterHeader'
 import { DEFAULT_PAGING } from '@/features/shared/paging.type'
 import ResultsInfo from '@/components/common/ResultsInfo'
 import queryTemplates from '@/features/templates/query/query-templates'
 import TemplateTable from './components/TemplateTable'
+import { loadVanBanSearchParams, VanBanSearchParamsSchema } from '../searchParams'
 
 export default async function VanBanPage({
 	searchParams,
 }: {
 	searchParams: Promise<{
-		search?: string;
-		category?: string;
-		view?: 'grid' | 'list';
-		page?: string;
-	}>
+		[key: string]: string | string[] | undefined
+	}>;
 }) {
-	const { search = '', view = 'grid', page: pageParam = '1' } = await searchParams;
-	const currentPage = Math.max(1, parseInt(pageParam));
+	const rawSearchParams = await loadVanBanSearchParams(searchParams);
+	const parsedSearchParams = VanBanSearchParamsSchema.parse(rawSearchParams);
+	const { search, view, page: pageParam } = parsedSearchParams;
+	const currentPage = pageParam || 1;
 
 	const pagedTemplates = await queryTemplates({
 		search,
@@ -28,7 +28,7 @@ export default async function VanBanPage({
 
 	return (
 		<div>
-			<VanBanTop />
+			<VanBanFilterHeader />
 			<main className="max-w-7xl mx-auto px-6 py-8">
 				{/* Results Info */}
 				<ResultsInfo

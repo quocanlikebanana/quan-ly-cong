@@ -30,6 +30,7 @@ const TemplateSchema = new Schema<TemplateDataDto>({
 		required: [true, 'Template must have at least one field.'],
 	}]
 }, {
+	_id: false,
 	id: false,
 	timestamps: true, // This adds createdAt and updatedAt automatically
 });

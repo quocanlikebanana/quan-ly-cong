@@ -3,25 +3,35 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Search, Grid3X3, List } from 'lucide-react';
-import React from 'react'
+import React, { useEffect, useTransition } from 'react'
 import { useQueryState } from 'nuqs';
 import Link from 'next/link';
 import { routes } from '@/client/routes';
+import useVanBanLoadingContext from '../context/useVanBanLoadingContext';
 
 export default function VanBanFilterHeader() {
+	const [isLoading, startTransition] = useTransition();
+	const { onLoadingChange } = useVanBanLoadingContext();
+
 	const [viewMode, setViewMode] = useQueryState<'grid' | 'list'>("view", {
 		defaultValue: 'grid',
 		parse: (value) => value as 'grid' | 'list',
 		shallow: false,
+		startTransition,
 	});
 	const [searchQuery, setSearchQuery] = useQueryState("search", {
 		defaultValue: '',
 		shallow: false,
+		startTransition,
 	});
 
+	useEffect(() => {
+		onLoadingChange(isLoading);
+	}, [isLoading, onLoadingChange]);
+
 	return (
-		<div className="sticky top-0 z-40 bg-lavender-web-800 border-b border-vista-blue-300 shadow-sm">
-			<div className="max-w-7xl mx-auto px-6 py-4">
+		<div className="sticky top-0 z-10 bg-lavender-web-800 border-b border-vista-blue-300 shadow-sm">
+			<div className="container mx-auto py-4">
 				<div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between">
 
 					<div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center flex-1">

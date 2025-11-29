@@ -3,6 +3,8 @@ import { TemplateDataDto, TemplateDataCreateDto, TemplateDataQueryDto, TemplateD
 import { ITemplateRepository } from "../template.repo";
 import { PagedResult } from "@/features/shared/paging.type";
 import TemplateModel from "./template.model";
+import { ObjectId } from "mongodb";
+import { isValidObjectId } from "mongoose";
 
 export class TemplateMongoRepository implements ITemplateRepository {
     async findAll(query: TemplateDataQueryDto): Promise<PagedResult<TemplateDataDto>> {
@@ -36,7 +38,14 @@ export class TemplateMongoRepository implements ITemplateRepository {
 
     async findById(id: string): Promise<TemplateDataDto | null> {
         await connectMongo();
-        const template = await TemplateModel.findById(id).lean<TemplateDataDto>();
+        if (isValidObjectId(id) === false) {
+            return null;
+        }
+        const _id = new ObjectId(id);
+        if (!_id) {
+            return null;
+        }
+        const template = await TemplateModel.findById(_id).lean<TemplateDataDto>();
         return template;
     }
 

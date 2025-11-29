@@ -7,9 +7,11 @@ export default function layout({
 	children: React.ReactNode;
 }) {
 	return (
-		<div className="min-h-screen bg-lavender-web-900">
+		<div className="min-h-screen bg-lavender-web-900 flex flex-col items-stretch">
 			<HeaderLarge />
-			{children}
+			<div className='flex-1 flex flex-col items-stretch justify-center'>
+				{children}
+			</div>
 		</div>
 	)
 }

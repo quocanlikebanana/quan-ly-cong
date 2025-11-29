@@ -1,3 +1,5 @@
+"use client";
+
 import { useContext } from "react";
 import GlobalLoadingContext from "./global-loading.context";
 import { ContextError } from "@/types/context-error";

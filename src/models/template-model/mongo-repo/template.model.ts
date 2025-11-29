@@ -3,11 +3,6 @@ import TemplateFieldSubSchema from './template-field.model';
 import { TemplateDataDto } from '../template.dto';
 
 const TemplateSchema = new Schema<TemplateDataDto>({
-	id: {
-		type: String,
-		// required: [true, 'Please provide a key for this template.'],
-		// unique: true,
-	},
 	name: {
 		type: String,
 		required: [true, 'Please provide a name for this template.'],
@@ -31,7 +26,7 @@ const TemplateSchema = new Schema<TemplateDataDto>({
 	}]
 }, {
 	_id: false,
-	id: false,
+	id: true,
 	timestamps: true, // This adds createdAt and updatedAt automatically
 });
 

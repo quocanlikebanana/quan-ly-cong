@@ -1,4 +1,5 @@
 import { PagingParams } from "@/features/shared/paging.type";
+import { ObjectId } from "mongodb";
 
 export type TemplateDataDto = {
     id: string;
@@ -21,16 +22,16 @@ export type TemplateFieldDataDto = {
     renderMetadata?: Record<string, unknown>;
 }
 
-export type TemplateDataCreateDto = Omit<TemplateDataDto, 'createdAt' | 'updatedAt'>;
+export type TemplateDataCreateDto = Omit<TemplateDataDto, 'id' | 'createdAt' | 'updatedAt'>;
 
 export type TemplateDataUpdateDto = Partial<Omit<TemplateDataDto, 'id' | 'createdAt' | 'updatedAt'>>;
 
 export type TemplateDataQueryDto = PagingParams;
 
 export class TemplateDataDtoParser {
-    static fromLean(lean: TemplateDataDto): TemplateDataDto {
+    static fromLean(lean: TemplateDataDto & { _id: ObjectId }): TemplateDataDto {
         return {
-            id: lean.id.toString(),
+            id: lean._id.toString(),
             name: lean.name,
             description: lean.description,
             category: lean.category,

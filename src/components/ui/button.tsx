@@ -20,6 +20,8 @@ const buttonVariants = cva(
 				ghost:
 					"hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
 				link: "text-primary underline-offset-4 hover:underline",
+				egyptianBlue:
+					"bg-egyptian-blue-600 text-lavender-web-900 hover:bg-egyptian-blue-700 focus-visible:ring-egyptian-blue-300",
 			},
 			size: {
 				default: "h-9 px-4 py-2 has-[>svg]:px-3",
@@ -29,7 +31,7 @@ const buttonVariants = cva(
 			},
 		},
 		defaultVariants: {
-			variant: "default",
+			variant: "egyptianBlue",
 			size: "default",
 		},
 	}

@@ -12,7 +12,7 @@ import { TemplateMongoRepository } from '@/models/template-model/mongo-repo';
  * @param payload - The template data to create
  * @returns Promise<CreateTemplateResponse> - The result of the operation
  */
-export async function createTemplateAction(payload: CreateTemplateType): Promise<ServerActionResponse> {
+export async function createTemplateAction(_: unknown, payload: CreateTemplateType): Promise<ServerActionResponse> {
 	try {
 		const parsedPayload = CreateTemplateSchema.safeParse(payload);
 		if (!parsedPayload.success) {
@@ -24,7 +24,7 @@ export async function createTemplateAction(payload: CreateTemplateType): Promise
 
 
 		// Generate a unique key for the file
-		const uniqueKey = `${parsedPayload.data.file.name}-${new Date().toISOString()}-${Math.random().toString(36).substring(2, 15)}`;
+		const uniqueKey = `${new Date().toISOString().replace(/[:.]/g, "-")}-${Math.random().toString(36).substring(2, 15)}`;
 
 		// Upload file
 		const fileBuffer = Buffer.from(await parsedPayload.data.file.arrayBuffer());
@@ -37,6 +37,7 @@ export async function createTemplateAction(payload: CreateTemplateType): Promise
 			storage: {
 				storageType: 'local',
 				path: uniqueKey,
+				orginalFileName: parsedPayload.data.file.name,
 			}
 		});
 

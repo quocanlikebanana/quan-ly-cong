@@ -13,12 +13,17 @@ import {
     FileUpload,
     TemplateFields
 } from "./components";
-import { useActionState } from "react";
+import { startTransition, useActionState, useCallback, useEffect } from "react";
 import { createTemplateAction } from "@/features/templates/actions/create-template/create-template.action";
 import { DEFAULT_SERVER_ACTION_RESPONSE } from "@/types/server-action-response";
+import Spinner from "@/components/atoms/Spinner";
+import { useRouter } from "next/navigation";
+import { routes } from "@/client/routes";
 
 export default function CreateTemplateForm() {
-    const [] = useActionState(createTemplateAction, DEFAULT_SERVER_ACTION_RESPONSE);
+    const [response, action, isLoading] = useActionState(createTemplateAction, DEFAULT_SERVER_ACTION_RESPONSE);
+    const { push } = useRouter();
+
     const hookForm = useForm<CreateTemplateType>({
         resolver: zodResolver(CreateTemplateSchema),
         defaultValues: {
@@ -41,10 +46,18 @@ export default function CreateTemplateForm() {
         }
     });
 
-    const onSubmit = (data: CreateTemplateType) => {
-        console.log(data);
-        // Handle form submission here
-    };
+    const onSubmit = useCallback((data: CreateTemplateType) => {
+        startTransition(() => {
+            action(data);
+        });
+    }, [action]);
+
+    useEffect(() => {
+        if (response.success) {
+            hookForm.reset();
+            push(routes.van_ban.INDEX);
+        }
+    }, [response, hookForm, push]);
 
     return (
         <Form {...hookForm}>
@@ -69,10 +82,22 @@ export default function CreateTemplateForm() {
 
                 {/* Submit Button */}
                 <div className="flex gap-4 pt-6 border-t">
-                    <Button type="submit" className="flex-1">
+                    <Button
+                        type="submit"
+                        className="flex-1"
+                        disabled={isLoading}
+                    >
                         Tạo mẫu văn bản
+                        {isLoading && (
+                            <Spinner className="ml-2 w-4 h-4" />
+                        )}
                     </Button>
-                    <Button type="button" variant="outline" className="px-8">
+                    <Button
+                        type="button"
+                        variant="outline"
+                        className="px-8"
+                        disabled={isLoading}
+                    >
                         Hủy
                     </Button>
                 </div>

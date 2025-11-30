@@ -1,7 +1,7 @@
 import { Schema } from "mongoose";
-import { TemplateStorageDto } from "../template.dto";
+import { TemplateStorageDataDto } from "../template.dto";
 
-const TemplateStorageSubSchema = new Schema<TemplateStorageDto>({
+const TemplateStorageSubSchema = new Schema<TemplateStorageDataDto>({
     storageType: {
         type: String,
         required: [true, 'Field type is required'],
@@ -11,7 +11,11 @@ const TemplateStorageSubSchema = new Schema<TemplateStorageDto>({
         type: String,
         required: [true, 'Field path is required'],
         maxlength: [500, 'Field path cannot be more than 500 characters'],
-    }
+    },
+    orginalFileName: {
+        type: String,
+        maxlength: [255, 'Original file name cannot be more than 255 characters'],
+    },
 }, {
 });
 

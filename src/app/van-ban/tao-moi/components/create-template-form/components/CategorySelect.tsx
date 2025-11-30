@@ -25,7 +25,7 @@ import {
 } from "@/components/ui/command";
 import { Check, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { CATEGORIES } from "../constants";
+import { CATEGORIES, TemplateCategoryType } from "../constants";
 import { CreateTemplateType } from "@/features/templates/actions/create-template/create-template.schema";
 
 interface CategorySelectProps {
@@ -60,9 +60,10 @@ export function CategorySelect({ control }: CategorySelectProps) {
                                     <CommandInput
                                         placeholder="Tìm kiếm hoặc nhập danh mục mới..."
                                         onValueChange={(value) => {
+                                            const typedValue = value as TemplateCategoryType;
                                             // Allow custom input
-                                            if (value && !CATEGORIES.includes(value)) {
-                                                field.onChange(value);
+                                            if (typedValue && !CATEGORIES.includes(typedValue)) {
+                                                field.onChange(typedValue);
                                             }
                                         }}
                                     />

@@ -8,6 +8,8 @@ export const CATEGORIES = [
     "Kế hoạch"
 ] as const;
 
+export type TemplateCategoryType = (typeof CATEGORIES)[number];
+
 export const TAGS = [
     "Hàng hóa",
     "Thuế",
@@ -20,3 +22,5 @@ export const TAGS = [
     "Giấy phép",
     "Chứng nhận"
 ] as const;
+
+export type TemplateTagType = (typeof TAGS)[number];

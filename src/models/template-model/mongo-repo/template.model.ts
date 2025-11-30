@@ -1,6 +1,7 @@
 import mongoose, { Schema, InferSchemaType } from 'mongoose';
 import TemplateFieldSubSchema from './template-field.model';
 import { TemplateDataDto } from '../template.dto';
+import TemplateStorageSubSchema from './template-storage.model';
 
 const TemplateSchema = new Schema<TemplateDataDto>({
 	name: {
@@ -15,6 +16,10 @@ const TemplateSchema = new Schema<TemplateDataDto>({
 	category: {
 		type: String,
 		maxlength: [50, 'Category cannot be more than 50 characters'],
+	},
+	storage: {
+		type: TemplateStorageSubSchema,
+		required: [true, 'Storage information is required.'],
 	},
 	tags: {
 		type: [String],

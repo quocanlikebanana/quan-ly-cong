@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
-import { TemplateMongoRepository } from ".";
-import { TemplateDataCreateDto, TemplateFieldDataDto } from "../template.dto";
+import { TemplateMongoRepository } from "../models/template-model/mongo-repo";
+import { TemplateDataCreateDto, TemplateFieldDataDto } from "../models/template-model/template.dto";
 
 export default async function populateTemplateModel() {
     const repo = new TemplateMongoRepository();
@@ -9,6 +9,10 @@ export default async function populateTemplateModel() {
 
     const mockData: TemplateDataCreateDto[] = Array.from({ length: 10 }).map((): TemplateDataCreateDto => ({
         name: faker.lorem.words(3),
+        storage: {
+            storageType: faker.helpers.arrayElement(['local', 's3']),
+            path: faker.system.filePath(),
+        },
         fields: Array.from({ length: faker.number.int({ min: 2, max: 5 }) }).map((_, fieldIndex): TemplateFieldDataDto => ({
             key: `key-${Date.now()}-${fieldIndex + 1}`,
             label: faker.lorem.words(2),

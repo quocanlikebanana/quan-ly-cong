@@ -8,6 +8,7 @@ export type TemplateDataDto = {
     category?: string;
     tags?: string[];
     fields: TemplateFieldDataDto[];
+    storage: TemplateStorageDto;
     createdAt: string;
     updatedAt: string;
 }
@@ -20,6 +21,11 @@ export type TemplateFieldDataDto = {
     order?: number;
     uiMetadata?: Record<string, unknown>;
     renderMetadata?: Record<string, unknown>;
+}
+
+export type TemplateStorageDto = {
+    storageType: 'local' | 's3';
+    path: string;
 }
 
 export type TemplateDataCreateDto = Omit<TemplateDataDto, 'id' | 'createdAt' | 'updatedAt'>;
@@ -36,6 +42,7 @@ export class TemplateDataDtoParser {
             description: lean.description,
             category: lean.category,
             tags: lean.tags,
+            storage: TemplateStorageDtoParser.fromLean(lean.storage),
             fields: lean.fields.map(TemplateFieldDataDtoParser.fromLean),
             createdAt: lean.createdAt,
             updatedAt: lean.updatedAt,
@@ -53,6 +60,15 @@ class TemplateFieldDataDtoParser {
             order: lean.order,
             uiMetadata: lean.uiMetadata,
             renderMetadata: lean.renderMetadata,
+        };
+    }
+}
+
+class TemplateStorageDtoParser {
+    static fromLean(lean: TemplateStorageDto): TemplateStorageDto {
+        return {
+            storageType: lean.storageType,
+            path: lean.path,
         };
     }
 }

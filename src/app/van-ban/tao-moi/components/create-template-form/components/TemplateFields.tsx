@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Plus, Trash2 } from "lucide-react";
-import { CreateTemplateType } from "@/features/templates/actions/create-template.schema";
+import { CreateTemplateType } from "@/features/templates/actions/create-template/create-template.schema";
 import { FIELD_TYPES } from "@/features/templates/types/field-schema";
 
 interface TemplateFieldsProps {

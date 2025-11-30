@@ -2,9 +2,8 @@
 
 import { ServerActionResponse } from '@/types/server-action-response';
 import { ZodUtils } from '@/lib/utils/zod-utils';
-import { CreateTemplateType, CreateTemplateSchema } from '@/features/templates/actions/create-template.schema';
+import { CreateTemplateType, CreateTemplateSchema } from '@/features/templates/actions/create-template/create-template.schema';
 import { revalidatePath } from 'next/cache';
-import { v4 as uuidv4 } from 'uuid';
 import { FileTransport } from '@/infra/file-transport';
 import { TemplateMongoRepository } from '@/models/template-model/mongo-repo';
 
@@ -25,8 +24,7 @@ export async function createTemplateAction(payload: CreateTemplateType): Promise
 
 
 		// Generate a unique key for the file
-		const id = uuidv4();
-		const uniqueKey = `${id}-${parsedPayload.data.file.name}`;
+		const uniqueKey = `${parsedPayload.data.file.name}-${new Date().toISOString()}-${Math.random().toString(36).substring(2, 15)}`;
 
 		// Upload file
 		const fileBuffer = Buffer.from(await parsedPayload.data.file.arrayBuffer());
@@ -34,9 +32,12 @@ export async function createTemplateAction(payload: CreateTemplateType): Promise
 
 		// Save to database
 		const repo = new TemplateMongoRepository();
-		await repo.create({
+		const result = await repo.create({
 			...parsedPayload.data,
-			id: id
+			storage: {
+				storageType: 'local',
+				path: uniqueKey,
+			}
 		});
 
 		// Revalidate the templates page to show the new template
@@ -44,7 +45,7 @@ export async function createTemplateAction(payload: CreateTemplateType): Promise
 
 		return {
 			success: true,
-			data: { id: id }
+			data: { id: result.id }
 		};
 
 	} catch (error) {

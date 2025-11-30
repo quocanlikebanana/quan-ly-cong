@@ -2,7 +2,7 @@
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
-import { CreateTemplateSchema, CreateTemplateType } from "@/features/templates/actions/create-template.schema";
+import { CreateTemplateSchema, CreateTemplateType } from "@/features/templates/actions/create-template/create-template.schema";
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,8 +13,12 @@ import {
     FileUpload,
     TemplateFields
 } from "./components";
+import { useActionState } from "react";
+import { createTemplateAction } from "@/features/templates/actions/create-template/create-template.action";
+import { DEFAULT_SERVER_ACTION_RESPONSE } from "@/types/server-action-response";
 
 export default function CreateTemplateForm() {
+    const [] = useActionState(createTemplateAction, DEFAULT_SERVER_ACTION_RESPONSE);
     const hookForm = useForm<CreateTemplateType>({
         resolver: zodResolver(CreateTemplateSchema),
         defaultValues: {

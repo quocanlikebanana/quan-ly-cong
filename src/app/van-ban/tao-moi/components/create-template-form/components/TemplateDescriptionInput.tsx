@@ -9,7 +9,7 @@ import {
     FormMessage
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
-import { CreateTemplateType } from "@/features/templates/actions/create-template.schema";
+import { CreateTemplateType } from "@/features/templates/actions/create-template/create-template.schema";
 
 interface TemplateDescriptionInputProps {
     control: Control<CreateTemplateType>;

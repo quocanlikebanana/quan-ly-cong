@@ -1,6 +1,6 @@
 "use server";
 
-import populateTemplateModel from "@/models/template-model/mongo-repo/template.populate";
+import populateTemplateModel from "@/__scripts__/template.populate";
 
 // bun run --conditions=react-server ./src/__scripts__/populate.ts
 

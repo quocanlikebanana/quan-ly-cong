@@ -1,5 +1,5 @@
 import z from "zod";
-import { TemplateFieldSchema } from "../types/field-schema";
+import { TemplateFieldSchema } from "../../types/field-schema";
 
 const TemplateFieldCoreSchema = TemplateFieldSchema.extend({
 	key: z.string().min(1, "Khóa là bắt buộc"),

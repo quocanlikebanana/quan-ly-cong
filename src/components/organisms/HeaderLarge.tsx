@@ -5,15 +5,17 @@ import React from 'react'
 export default function HeaderLarge() {
     return (
         <header className="bg-egyptian-blue-600 text-lavender-web-900 py-4 relative">
-            <div className="container mx-auto flex flex-row items-center gap-6">
-                <div>
-                    <Image src={CONSTANTS.public.logo.emblemOfVietnam} alt="Emblem of Vietnam" width={70} height={70} />
-                </div>
-                <div className='flex flex-col'>
-                    <h1 className="text-2xl font-bold mb-1">Quản lý Văn bản Pháp lý</h1>
-                    <p>
-                        Hệ thống quản lý mẫu văn bản và tài liệu pháp lý
-                    </p>
+            <div className="container mx-auto flex flex-col gap-4">
+                <div className='flex flex-row items-center gap-6'>
+                    <div>
+                        <Image src={CONSTANTS.public.logo.emblemOfVietnam} alt="Emblem of Vietnam" width={70} height={70} />
+                    </div>
+                    <div className='flex flex-col'>
+                        <h1 className="text-2xl font-bold mb-1">Quản lý Văn bản Pháp lý</h1>
+                        <p>
+                            Hệ thống quản lý mẫu văn bản và tài liệu pháp lý
+                        </p>
+                    </div>
                 </div>
             </div>
 

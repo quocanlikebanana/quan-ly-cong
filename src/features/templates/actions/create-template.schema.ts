@@ -1,5 +1,10 @@
 import z from "zod";
-import { TemplateFieldCoreSchema } from "./template-action.schema";
+import { TemplateFieldSchema } from "../types/field-schema";
+
+const TemplateFieldCoreSchema = TemplateFieldSchema.extend({
+	key: z.string().min(1, "Khóa là bắt buộc"),
+	label: z.string().min(1, "Nhãn là bắt buộc"),
+});
 
 export const CreateTemplateSchema = z.object({
 	name: z.string().min(1, 'Tên mẫu là bắt buộc'),

@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
-import { TemplateMongoRepository } from "./mongo-repo";
-import { TemplateDataCreateDto, TemplateFieldDataDto } from "./template.dto";
+import { TemplateMongoRepository } from ".";
+import { TemplateDataCreateDto, TemplateFieldDataDto } from "../template.dto";
 
 export default async function populateTemplateModel() {
     const repo = new TemplateMongoRepository();

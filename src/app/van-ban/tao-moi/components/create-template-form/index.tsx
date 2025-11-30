@@ -25,11 +25,13 @@ export default function CreateTemplateForm() {
             file: undefined as File | undefined, // This will be set by the file input
             fields: [
                 {
+                    type: "text",
                     key: "",
                     label: "",
-                    placeholder: "",
-                    defaultValue: "",
-                    order: 0
+                    description: "",
+                    order: 0,
+                    uiMetadata: {},
+                    renderMetadata: {}
                 }
             ]
         }

@@ -6,8 +6,10 @@ export const FIELD_TYPES = {
     array: "array",
 } as const;
 
+export const TemplateFieldEnumSchema = z.enum([FIELD_TYPES.text, FIELD_TYPES.date, FIELD_TYPES.array]);
+
 export const TemplateFieldSchema = z.object({
-    type: z.enum([FIELD_TYPES.text, FIELD_TYPES.date, FIELD_TYPES.array]),
+    type: TemplateFieldEnumSchema,
     key: z.string(),
     label: z.string().min(1, "Label is required"),
     description: z.string().optional(),

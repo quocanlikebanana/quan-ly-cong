@@ -45,7 +45,8 @@ export class TemplateMongoRepository implements ITemplateRepository {
         if (!_id) {
             return null;
         }
-        const template = await TemplateModel.findById(_id).lean<TemplateDataDto>();
+        const templateLean = await TemplateModel.findById(_id).lean();
+        const template = templateLean ? TemplateDataDtoParser.fromLean(templateLean) : null;
         return template;
     }
 

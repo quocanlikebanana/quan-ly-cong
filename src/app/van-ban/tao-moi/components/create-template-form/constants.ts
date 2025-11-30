@@ -6,7 +6,7 @@ export const CATEGORIES = [
     "Văn bản hướng dẫn",
     "Báo cáo",
     "Kế hoạch"
-];
+] as const;
 
 export const TAGS = [
     "Hàng hóa",
@@ -19,4 +19,4 @@ export const TAGS = [
     "Xử phạt",
     "Giấy phép",
     "Chứng nhận"
-];
+] as const;

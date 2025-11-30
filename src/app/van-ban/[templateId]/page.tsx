@@ -65,9 +65,11 @@ export default async function DocumentPage({
 
 					<div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
 						<h1 className="text-3xl font-bold text-vista-blue-950">{template.name}</h1>
-						<Button>
-							Tạo văn bản từ mẫu này
-						</Button>
+						<Link href={`/van-ban/${templateId}/fill`}>
+							<Button>
+								Tạo văn bản từ mẫu này
+							</Button>
+						</Link>
 					</div>
 				</div>
 			</div>

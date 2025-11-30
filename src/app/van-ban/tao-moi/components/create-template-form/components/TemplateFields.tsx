@@ -11,8 +11,11 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 import { Plus, Trash2 } from "lucide-react";
 import { CreateTemplateType } from "@/features/templates/actions/create-template.schema";
+import { FIELD_TYPES } from "@/features/templates/types/field-schema";
 
 interface TemplateFieldsProps {
     control: Control<CreateTemplateType>;
@@ -26,11 +29,13 @@ export function TemplateFields({ control }: TemplateFieldsProps) {
 
     const addField = () => {
         append({
+            type: "text",
             key: "",
             label: "",
-            placeholder: "",
-            defaultValue: "",
-            order: fields.length
+            description: "",
+            order: fields.length,
+            uiMetadata: {},
+            renderMetadata: {}
         });
     };
 
@@ -71,6 +76,32 @@ export function TemplateFields({ control }: TemplateFieldsProps) {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <FormField
                                 control={control}
+                                name={`fields.${index}.type`}
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Loại trường *</FormLabel>
+                                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                            <FormControl>
+                                                <SelectTrigger>
+                                                    <SelectValue placeholder="Chọn loại trường" />
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent>
+                                                <SelectItem value={FIELD_TYPES.text}>Văn bản</SelectItem>
+                                                <SelectItem value={FIELD_TYPES.date}>Ngày tháng</SelectItem>
+                                                <SelectItem value={FIELD_TYPES.array}>Danh sách</SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                        <FormDescription>
+                                            Kiểu dữ liệu của trường
+                                        </FormDescription>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+
+                            <FormField
+                                control={control}
                                 name={`fields.${index}.key`}
                                 render={({ field }) => (
                                     <FormItem>
@@ -105,27 +136,20 @@ export function TemplateFields({ control }: TemplateFieldsProps) {
 
                             <FormField
                                 control={control}
-                                name={`fields.${index}.placeholder`}
+                                name={`fields.${index}.description`}
                                 render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Placeholder</FormLabel>
+                                    <FormItem className="md:col-span-2">
+                                        <FormLabel>Mô tả</FormLabel>
                                         <FormControl>
-                                            <Input placeholder="vd: Nhập tên người nhận..." {...field} />
+                                            <Textarea
+                                                placeholder="vd: Nhập tên đầy đủ của người nhận văn bản..."
+                                                {...field}
+                                                rows={2}
+                                            />
                                         </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-
-                            <FormField
-                                control={control}
-                                name={`fields.${index}.defaultValue`}
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Giá trị mặc định</FormLabel>
-                                        <FormControl>
-                                            <Input placeholder="vd: Không có" {...field} />
-                                        </FormControl>
+                                        <FormDescription>
+                                            Mô tả chi tiết về trường này
+                                        </FormDescription>
                                         <FormMessage />
                                     </FormItem>
                                 )}

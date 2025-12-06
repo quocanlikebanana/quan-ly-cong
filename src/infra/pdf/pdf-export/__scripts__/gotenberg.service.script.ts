@@ -1,3 +1,7 @@
+/**
+ * bun run --conditions=react-server src/infra/pdf/pdf-export/__scripts__/gotenberg.service.script.ts
+ */
+
 import fs from "fs";
 import path from "path";
 import { PDFExportGotenbergService } from "../pdf-export-gotenberg.service";
@@ -11,7 +15,7 @@ async function testGotenbergConversion() {
     const docxFile = fs.readFileSync(path.join(baseDir, "sample.docx"));
     const docxBuffer = Buffer.from(docxFile);
 
-    const pdfBufferPromise = await PDFExportGotenbergService.convertDocxToPdf(docxBuffer);
+    const pdfBufferPromise = await new PDFExportGotenbergService().convertDocxToPdf(docxBuffer);
 
     fs.writeFileSync(path.join(baseDir, "output.pdf"), pdfBufferPromise);
     console.log("PDF conversion successful, output.pdf created.");
@@ -20,7 +24,3 @@ async function testGotenbergConversion() {
 testGotenbergConversion().catch((error) => {
     console.error("Error during PDF conversion:", error);
 });
-
-/**
- * bun run --conditions=react-server src/infra/pdf/pdf-export/__scripts__/gotenberg.service.script.ts
- */

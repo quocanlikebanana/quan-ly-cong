@@ -8,6 +8,7 @@ import { FileTransport } from '@/infra/file-transport';
 import { TemplateMongoRepository } from '@/models/template-model/mongo-repo';
 import { routes } from '@/client/routes';
 import { PDFExportService } from '@/infra/pdf/pdf-export/pdf-export.service';
+import { PDFToImageService } from '@/infra/pdf/image-preview/pdf-to-image.service';
 
 /**
  * Server action to create a template.
@@ -34,6 +35,9 @@ export async function createTemplateAction(_: unknown, payload: CreateTemplateTy
 		// Aftar uploaded, create PDF preview
 		const pdfBuffer = await PDFExportService.generatePdfPreviewFromDocxBuffer(fileBuffer);
 		await FileTransport.writePdfFile(pdfBuffer, uniqueKey, "local");
+
+		const imagePreviewBuffer = await PDFToImageService.convertPdfToPngBufferByPageNumber(pdfBuffer, 1);
+		await FileTransport.writeImagePreviewFile(imagePreviewBuffer, uniqueKey, "local");
 
 		// Save to database
 		const repo = new TemplateMongoRepository();

@@ -25,7 +25,7 @@ export type TemplateFieldDataDto = {
 
 export type TemplateStorageDataDto = {
     storageType: 'local' | 's3';
-    path: string;
+    key: string;
     orginalFileName?: string;
 }
 
@@ -69,7 +69,8 @@ class TemplateStorageDtoParser {
     static fromLean(lean: TemplateStorageDataDto): TemplateStorageDataDto {
         return {
             storageType: lean.storageType,
-            path: lean.path,
+            key: lean.key,
+            orginalFileName: lean.orginalFileName,
         };
     }
 }

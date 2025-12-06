@@ -7,6 +7,8 @@ import TemplateTable from './components/TemplateTable'
 import { loadVanBanSearchParams, VanBanSearchParamsSchema } from '../searchParams'
 import VanBanLoadingOverlay from './components/VanBanLoadingOverlay'
 import NoItemsFoundCover from '@/components/common/NoItemsFoundCover'
+import Link from 'next/link'
+import { routes } from '@/client/routes'
 
 export default async function VanBanPage({
 	searchParams,
@@ -46,10 +48,14 @@ export default async function VanBanPage({
 					) : (
 						<div className={"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8"}>
 							{pagedTemplates.data.map((template) => (
-								<TemplateCard
+								<Link
 									key={template.id}
-									template={template}
-								/>
+									href={routes.van_ban.id(template.id).INDEX}
+								>
+									<TemplateCard
+										template={template}
+									/>
+								</Link>
 							))}
 						</div>
 					))}

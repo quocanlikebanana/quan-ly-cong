@@ -17,12 +17,13 @@ import { startTransition, useActionState, useCallback, useEffect } from "react";
 import { createTemplateAction } from "@/features/templates/actions/create-template/create-template.action";
 import { DEFAULT_SERVER_ACTION_RESPONSE } from "@/types/server-action-response";
 import Spinner from "@/components/atoms/Spinner";
-import { useRouter } from "next/navigation";
 import { routes } from "@/client/routes";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export default function CreateTemplateForm() {
     const [response, action, isLoading] = useActionState(createTemplateAction, DEFAULT_SERVER_ACTION_RESPONSE);
-    const { push } = useRouter();
+    const router = useRouter();
 
     const hookForm = useForm<CreateTemplateType>({
         resolver: zodResolver(CreateTemplateSchema),
@@ -55,9 +56,10 @@ export default function CreateTemplateForm() {
     useEffect(() => {
         if (response.success) {
             hookForm.reset();
-            push(routes.van_ban.INDEX);
+            router.push(routes.van_ban.INDEX);
+            toast.success("Tạo mẫu văn bản thành công!");
         }
-    }, [response, hookForm, push]);
+    }, [response.success, hookForm, router]);
 
     return (
         <Form {...hookForm}>

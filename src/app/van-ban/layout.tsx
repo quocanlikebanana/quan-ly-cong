@@ -23,8 +23,10 @@ export default function layout({
 						</div>
 					</div>
 				)}
-				<div className='flex-1 flex flex-col items-stretch justify-center'>
-					{children}
+				<div className='flex-1'>
+					<div className='flex flex-col items-stretch justify-center'>
+						{children}
+					</div>
 				</div>
 			</div>
 		</VanBanLoadingContextProvider>

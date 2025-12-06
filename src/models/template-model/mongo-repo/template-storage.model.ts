@@ -7,7 +7,7 @@ const TemplateStorageSubSchema = new Schema<TemplateStorageDataDto>({
         required: [true, 'Field type is required'],
         enum: ["local", "s3"],
     },
-    path: {
+    key: {
         type: String,
         required: [true, 'Field path is required'],
         maxlength: [500, 'Field path cannot be more than 500 characters'],

@@ -11,7 +11,7 @@ export default async function populateTemplateModel() {
         name: faker.lorem.words(3),
         storage: {
             storageType: faker.helpers.arrayElement(['local', 's3']),
-            path: faker.system.filePath(),
+            key: faker.system.filePath(),
         },
         fields: Array.from({ length: faker.number.int({ min: 2, max: 5 }) }).map((_, fieldIndex): TemplateFieldDataDto => ({
             key: `key-${Date.now()}-${fieldIndex + 1}`,

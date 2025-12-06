@@ -16,6 +16,16 @@ export class FileTransport {
 		return transport.writeDocxFile(fileContent, key);
 	}
 
+	static async writePdfFile(fileContent: Buffer | Uint8Array | string, key: string, to: "s3" | "local" = "local") {
+		const transport = this.getTransport(to);
+		return transport.writePdfFile ? transport.writePdfFile(fileContent, key) : false;
+	}
+
+	static async readPDFFile(key: string, from: "s3" | "local" = "local"): Promise<string> {
+		const transport = this.getTransport(from);
+		return transport.readPDFFile ? transport.readPDFFile(key) : '';
+	}
+
 	private static getTransport(type: "s3" | "local"): IFileTransport {
 		return type === "s3" ? this.s3Transport : this.localTransport;
 	}

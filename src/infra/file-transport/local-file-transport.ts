@@ -1,3 +1,7 @@
+// This file is only meant to be used in a server environment
+// Because it uses Node.js 'fs' module and file system access is not available in the browser
+import "server-only";
+
 import { IFileTransport } from "./file-transport.i";
 import fs from "fs";
 import path from "path";
@@ -21,5 +25,20 @@ export class LocalFileTransport implements IFileTransport {
         const filePath = getLocalFilePath(key);
         fs.writeFileSync(filePath, fileContent, { encoding: 'base64' });
         return true;
+    }
+
+    async writePdfFile(fileContent: Buffer | Uint8Array | string, key: string): Promise<boolean> {
+        if (!fs.existsSync(SERVER_FILE_PATH)) {
+            fs.mkdirSync(SERVER_FILE_PATH, { recursive: true });
+        }
+        const filePath = path.resolve(SERVER_FILE_PATH, `${key}.pdf`);
+        fs.writeFileSync(filePath, fileContent, { encoding: 'base64' });
+        return true;
+    }
+
+    async readPDFFile(key: string): Promise<string> {
+        const localFilePath = path.resolve(SERVER_FILE_PATH, `${key}.pdf`);
+        const fileBinary = fs.readFileSync(localFilePath);
+        return fileBinary.toString('base64');
     }
 }

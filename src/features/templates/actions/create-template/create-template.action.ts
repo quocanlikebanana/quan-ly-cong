@@ -6,6 +6,8 @@ import { CreateTemplateType, CreateTemplateSchema } from '@/features/templates/a
 import { revalidatePath } from 'next/cache';
 import { FileTransport } from '@/infra/file-transport';
 import { TemplateMongoRepository } from '@/models/template-model/mongo-repo';
+import { routes } from '@/client/routes';
+import { PDFExportService } from '@/infra/pdf/pdf-export/pdf-export.service';
 
 /**
  * Server action to create a template.
@@ -22,7 +24,6 @@ export async function createTemplateAction(_: unknown, payload: CreateTemplateTy
 			};
 		}
 
-
 		// Generate a unique key for the file
 		const uniqueKey = `${new Date().toISOString().replace(/[:.]/g, "-")}-${Math.random().toString(36).substring(2, 15)}`;
 
@@ -30,19 +31,23 @@ export async function createTemplateAction(_: unknown, payload: CreateTemplateTy
 		const fileBuffer = Buffer.from(await parsedPayload.data.file.arrayBuffer());
 		await FileTransport.writeDocxFile(fileBuffer, uniqueKey, "local");
 
+		// Aftar uploaded, create PDF preview
+		const pdfBuffer = await PDFExportService.generatePdfPreviewFromDocxBuffer(fileBuffer);
+		await FileTransport.writePdfFile(pdfBuffer, uniqueKey, "local");
+
 		// Save to database
 		const repo = new TemplateMongoRepository();
 		const result = await repo.create({
 			...parsedPayload.data,
 			storage: {
 				storageType: 'local',
-				path: uniqueKey,
+				key: uniqueKey,
 				orginalFileName: parsedPayload.data.file.name,
 			}
 		});
 
 		// Revalidate the templates page to show the new template
-		revalidatePath('/van-ban');
+		revalidatePath(routes.van_ban.INDEX);
 
 		return {
 			success: true,

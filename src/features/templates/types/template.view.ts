@@ -1,15 +1,19 @@
 export type TemplateView = {
     id: string;
     name: string;
-    /**
-     * To retrieve file
-     */
+    storage: TemplateStorageView;
     description?: string | null;
     category?: string | null;
     tags?: string[];
     createdAt: string;
     updatedAt: string;
 };
+
+type TemplateStorageView = {
+    storageType: 'local' | 's3';
+    key: string;
+    orginalFileName?: string | null;
+}
 
 export type TemplateFieldView = {
     /**

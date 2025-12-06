@@ -1,5 +1,6 @@
 'use client'
 
+import { routes } from '@/client/routes';
 import { Badge } from '@/components/ui/badge'
 import {
 	Table,
@@ -35,11 +36,15 @@ export default function TemplateTable({
 			<TableBody>
 				{templates.length > 0 ? (
 					templates.map((template) => (
-						<TemplateRow
+						<Link
 							key={template.id}
-							template={template}
-							onTemplateClick={onTemplateClick}
-						/>
+							href={routes.van_ban.id(template.id).INDEX}
+						>
+							<TemplateRow
+								template={template}
+								onTemplateClick={onTemplateClick}
+							/>
+						</Link>
 					))
 				) : (
 					<TableRow>

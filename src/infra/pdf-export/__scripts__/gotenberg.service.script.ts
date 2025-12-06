@@ -4,8 +4,8 @@
 
 import fs from "fs";
 import path from "path";
-import { PDFExportGotenbergService } from "../pdf-export-gotenberg.service";
 import { cwd } from "process";
+import { PDFExportInfra } from "../pdf-export.infra";
 
 async function testGotenbergConversion() {
     const currentWorkingDir = cwd();
@@ -15,7 +15,7 @@ async function testGotenbergConversion() {
     const docxFile = fs.readFileSync(path.join(baseDir, "sample.docx"));
     const docxBuffer = Buffer.from(docxFile);
 
-    const pdfBufferPromise = await new PDFExportGotenbergService().convertDocxToPdf(docxBuffer);
+    const pdfBufferPromise = await PDFExportInfra.generatePdfPreviewFromDocxBuffer(docxBuffer);
 
     fs.writeFileSync(path.join(baseDir, "output.pdf"), pdfBufferPromise);
     console.log("PDF conversion successful, output.pdf created.");

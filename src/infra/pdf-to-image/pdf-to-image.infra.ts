@@ -1,6 +1,6 @@
 import { pdf } from "pdf-to-img";
 
-export class PDFToImageService {
+export class PDFToImageInfra {
     static async convertPdfToPngBufferArray(pdfBuffer: Buffer): Promise<Buffer[]> {
         const pngBuffers: Buffer[] = [];
         const document = await pdf(pdfBuffer, { scale: 3 });

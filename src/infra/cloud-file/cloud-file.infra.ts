@@ -1,3 +1,9 @@
+/**
+ * This module handles file operations in cloud storage (AWS S3).
+ * Should only be used in a server environment.
+ */
+import "server-only";
+
 import configs from "@/lib/configs";
 import { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
 import { Readable } from "stream";
@@ -5,7 +11,7 @@ import { Readable } from "stream";
 const s3Client = new S3Client({});
 const BUCKET_NAME = configs.aws.s3.bucketName;
 
-export class S3Service {
+export class CloudFileInfra {
 	static async uploadFile(key: string, body: Buffer | Uint8Array | string, contentType?: string): Promise<void> {
 		await s3Client.send(
 			new PutObjectCommand({

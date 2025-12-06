@@ -5,7 +5,7 @@
 import fs from "fs";
 import path from "path";
 import { cwd } from "process";
-import { PDFToImageService } from "../pdf-to-image.service";
+import { PDFToImageService } from "../../../pdf-to-image/pdf-to-image.service";
 
 async function testPdfToImageService() {
     const currentWorkingDir = cwd();

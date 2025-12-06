@@ -1,5 +1,5 @@
 import PdfAllPagesViewer from '@/components/atoms/PdfAllPagesViewer';
-import { FileTransport } from '@/infra/file-transport';
+import { TemplateFileService } from '@/services/template-file/template-file.service';
 import React from 'react'
 
 export default async function TemplateDocxView({
@@ -7,7 +7,7 @@ export default async function TemplateDocxView({
 }: {
     storageKey: string;
 }) {
-    const pdfDocument = await FileTransport.readPDFFile(storageKey);
+    const pdfDocument = await TemplateFileService.getInstance().readDisplay(storageKey);
 
     // Pass base64 data directly to react-pdf (more efficient)
     const base64Data = `data:application/pdf;base64,${pdfDocument}`;

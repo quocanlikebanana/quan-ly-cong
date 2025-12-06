@@ -4,11 +4,9 @@ import { ServerActionResponse } from '@/types/server-action-response';
 import { ZodUtils } from '@/lib/utils/zod-utils';
 import { CreateTemplateType, CreateTemplateSchema } from '@/features/templates/actions/create-template/create-template.schema';
 import { revalidatePath } from 'next/cache';
-import { FileTransport } from '@/infra/file-transport';
 import { TemplateMongoRepository } from '@/models/template-model/mongo-repo';
 import { routes } from '@/client/routes';
-import { PDFExportService } from '@/infra/pdf/pdf-export/pdf-export.service';
-import { PDFToImageService } from '@/infra/pdf/image-preview/pdf-to-image.service';
+import { TemplateFileService } from '@/services/template-file/template-file.service';
 
 /**
  * Server action to create a template.
@@ -25,19 +23,8 @@ export async function createTemplateAction(_: unknown, payload: CreateTemplateTy
 			};
 		}
 
-		// Generate a unique key for the file
-		const uniqueKey = `${new Date().toISOString().replace(/[:.]/g, "-")}-${Math.random().toString(36).substring(2, 15)}`;
-
-		// Upload file
-		const fileBuffer = Buffer.from(await parsedPayload.data.file.arrayBuffer());
-		await FileTransport.writeDocxFile(fileBuffer, uniqueKey, "local");
-
-		// Aftar uploaded, create PDF preview
-		const pdfBuffer = await PDFExportService.generatePdfPreviewFromDocxBuffer(fileBuffer);
-		await FileTransport.writePdfFile(pdfBuffer, uniqueKey, "local");
-
-		const imagePreviewBuffer = await PDFToImageService.convertPdfToPngBufferByPageNumber(pdfBuffer, 1);
-		await FileTransport.writeImagePreviewFile(imagePreviewBuffer, uniqueKey, "local");
+		// Save files (local or s3)
+		const { key } = await TemplateFileService.getInstance().write(parsedPayload.data.file)
 
 		// Save to database
 		const repo = new TemplateMongoRepository();
@@ -45,7 +32,7 @@ export async function createTemplateAction(_: unknown, payload: CreateTemplateTy
 			...parsedPayload.data,
 			storage: {
 				storageType: 'local',
-				key: uniqueKey,
+				key: key,
 				orginalFileName: parsedPayload.data.file.name,
 			}
 		});

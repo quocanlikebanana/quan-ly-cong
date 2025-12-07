@@ -26,19 +26,14 @@ export default async function DocumentPage({
 	});
 
 	return (
-		<div className="flex flex-col gap-6 min-h-full py-8">
-			<main className="container mx-auto space-y-6">
-				<div className="grid grid-cols-2 gap-6">
-
-					<div className="flex flex-col">
-						<TemplateInfoCard template={template} />
-						<TemplateFieldsCard fields={sortedFields} />
-					</div>
-					<div className="w-full h-full">
-						<TemplateDocxView storageKey={template.storage.key} />
-					</div>
-				</div>
-			</main>
+		<div className="h-full container py-8 mx-auto grid grid-cols-2 gap-6 overflow-hidden ">
+			<div className="flex flex-col gap-4 ">
+				<TemplateInfoCard template={template} />
+				<TemplateFieldsCard fields={sortedFields} />
+			</div>
+			<div className="contain-size w-full min-h-[70vh] max-h-full overflow-auto p-1 border rounded-md">
+				<TemplateDocxView storageKey={template.storage.key} />
+			</div>
 		</div>
 	);
 }

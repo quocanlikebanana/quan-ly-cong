@@ -10,17 +10,19 @@ import {
 	TableRow,
 } from '@/components/ui/table'
 import { TemplateView } from '@/features/templates/types/template.view';
-import Link from 'next/link';
 import React from 'react'
 import TemplateRow from './TemplateRow';
+import { useRouter } from 'next/navigation';
 
 export default function TemplateTable({
 	templates,
-	onTemplateClick,
 }: {
 	templates: TemplateView[];
-	onTemplateClick?: (template: TemplateView) => void;
 }) {
+	const router = useRouter();
+	const onTemplateClick = (template: TemplateView) => {
+		router.push(routes.van_ban.id(template.id).INDEX);
+	};
 	return (
 		<Table>
 			<TableHeader>
@@ -35,15 +37,11 @@ export default function TemplateTable({
 			<TableBody>
 				{templates.length > 0 ? (
 					templates.map((template) => (
-						<Link
+						<TemplateRow
 							key={template.id}
-							href={routes.van_ban.id(template.id).INDEX}
-						>
-							<TemplateRow
-								template={template}
-								onTemplateClick={onTemplateClick}
-							/>
-						</Link>
+							template={template}
+							onTemplateClick={onTemplateClick}
+						/>
 					))
 				) : (
 					<TableRow>

@@ -22,19 +22,21 @@ export default async function TemplateCard({
 
 	return (
 		<div className='w-full h-full border p-4 rounded-md hover:shadow-md hover:bg-blue-50 transition-all duration-300 group'>
-			<Image
-				src={imageBufferString
-					? `data:image/png;base64,${imageBufferString}`
-					: CONSTANTS.public.placeholder.templatePlaceholder
-				}
-				alt={template.name}
-				width={400}
-				height={400}
-				className="w-full h-96 object-cover rounded-md mb-4 bg-muted"
-			/>
+			<div className='w-full h-96 rounded-md mb-4 bg-muted overflow-clip border p-2'>
+				<Image
+					src={imageBufferString
+						? `data:image/png;base64,${imageBufferString}`
+						: CONSTANTS.public.placeholder.templatePlaceholder
+					}
+					alt={template.name}
+					width={400}
+					height={400}
+					className="object-cover"
+				/>
+			</div>
 
 			<div className="flex items-center justify-between mb-2">
-				<h3 className="text-xl font-bold group-hover:text-blue-700 transition-colors duration-300 line-clamp-1 mb-1">
+				<h3 className="text-xl font-bold group-hover:text-blue-700 transition-colors duration-300 line-clamp-2 mb-1">
 					{template.name}
 				</h3>
 				{template.category && (

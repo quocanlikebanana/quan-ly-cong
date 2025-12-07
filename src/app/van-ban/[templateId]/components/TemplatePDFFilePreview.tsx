@@ -15,8 +15,6 @@ export default async function TemplateDocxView({
     const base64Data = `data:application/pdf;base64,${pdfBufferString || ''}`;
 
     return (
-        <div className="w-full h-[100vh] border rounded-md overflow-hidden">
-            <PdfAllPagesViewer binaryString={base64Data} />
-        </div>
+        <PdfAllPagesViewer binaryString={base64Data} />
     );
 }

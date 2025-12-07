@@ -45,9 +45,7 @@ export class LocalTemplateFileService {
 
     readDisplay(key: string): ArrayBuffer | null {
         const pdfDisplayFilePath = path.join(key, FileNameAsConst.display);
-        console.log('Reading PDF display file from path:', pdfDisplayFilePath);
         const arrayBuffer = LocalFileInfra.readFile(pdfDisplayFilePath);
-        console.log('Read PDF display file, size:', arrayBuffer ? arrayBuffer.byteLength : 'null');
         return arrayBuffer;
     }
 

@@ -5,7 +5,6 @@ import {
 } from '@/components/ui/table'
 import { TemplateView } from '@/features/templates/types/template.view';
 import { DateUtils } from '@/lib/utils/date-utils';
-import Link from 'next/link';
 import React from 'react'
 
 export default function TemplateRow({
@@ -23,13 +22,11 @@ export default function TemplateRow({
 
     return (
         <TableRow
-            className='hover:bg-blue-50/70 cursor-pointer'
+            className='hover:bg-blue-50/70 group cursor-pointer'
             onClick={handleRowClick}
         >
-            <TableCell className='font-medium'>
-                <Link href={`/van-ban/${template.id}`} className='hover:underline hover:text-blue-700'>
-                    {template.name}
-                </Link>
+            <TableCell className='font-semibold group-hover:underline group-hover:text-blue-700'>
+                {template.name}
             </TableCell>
             <TableCell>
                 {template.category && (

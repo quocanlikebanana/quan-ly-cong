@@ -17,7 +17,8 @@ export class PDFExportInfra {
         const result = await fetch(`${GOTENBERG_URL}forms/libreoffice/convert`, {
             method: "POST",
             body: form
-        })
+        });
+
         if (!result.ok) {
             throw new Error(`Gotenberg conversion failed with status ${result.status}`);
         }

@@ -1,14 +1,11 @@
 import React from 'react'
-import TemplateCard from './components/TemplateCard'
 import { DEFAULT_PAGING } from '@/features/shared/paging.type'
 import ResultsInfo from '@/components/common/ResultsInfo'
 import queryTemplates from '@/features/templates/query/query-templates'
 import TemplateTable from './components/TemplateTable'
 import { loadVanBanSearchParams, VanBanSearchParamsSchema } from '../searchParams'
 import VanBanLoadingOverlay from './components/VanBanLoadingOverlay'
-import NoItemsFoundCover from '@/components/common/NoItemsFoundCover'
-import Link from 'next/link'
-import { routes } from '@/client/routes'
+import TemplateGrid from './components/TemplateGrid'
 
 export default async function VanBanPage({
 	searchParams,
@@ -28,10 +25,11 @@ export default async function VanBanPage({
 		perPage: DEFAULT_PAGING.perPage,
 	});
 
+	const hasFiltered = Boolean(search);
+
 	return (
 		<div className='flex flex-col gap-4 min-h-screen pb-8'>
-			<main className="container mx-auto space-y-4 flex-1 relative">
-				{/* Results Info */}
+			<main className="container mx-auto flex-1 flex flex-col gap-4 w-full h-full relative">
 				<ResultsInfo
 					pagedResult={pagedTemplates}
 					search={search}
@@ -41,24 +39,8 @@ export default async function VanBanPage({
 				<VanBanLoadingOverlay />
 
 				{view === "grid" && (
-					pagedTemplates.data.length === 0 ? (
-						<div className='absolute inset-0'>
-							<NoItemsFoundCover />
-						</div>
-					) : (
-						<div className={"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8"}>
-							{pagedTemplates.data.map((template) => (
-								<Link
-									key={template.id}
-									href={routes.van_ban.id(template.id).INDEX}
-								>
-									<TemplateCard
-										template={template}
-									/>
-								</Link>
-							))}
-						</div>
-					))}
+					<TemplateGrid templates={pagedTemplates.data} hasFiltered={hasFiltered} />
+				)}
 				{view === "list" && (
 					<TemplateTable
 						templates={pagedTemplates.data}

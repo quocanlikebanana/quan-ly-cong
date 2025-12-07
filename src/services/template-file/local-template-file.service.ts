@@ -2,6 +2,8 @@
 // Because it uses Node.js 'fs' module and file system access is not available in the browser
 
 import { LocalFileInfra } from "@/infra/local-file/local-file.infra";
+import { PDFExportInfra } from "@/infra/pdf-export/pdf-export.infra";
+import { PDFToImageInfra } from "@/infra/pdf-to-image/pdf-to-image.infra";
 import path from "path";
 
 const FileNameAsConst = {
@@ -19,12 +21,20 @@ export class LocalTemplateFileService {
     async write(file: File): Promise<{ key: string; }> {
         const key = this.getKey();
         const fileBuffer = Buffer.from(await file.arrayBuffer());
-        const docxTemplateFilePath = path.resolve(key, FileNameAsConst.template);
-        const pdfDisplayFilePath = path.resolve(key, FileNameAsConst.display);
-        const imagePreviewFilePath = path.resolve(key, FileNameAsConst.preview);
+
+        // NOTE: Use path.join not path.resolve to create file paths for writing
+        // path.resolve would create absolute paths which may not be desired here
+        const docxTemplateFilePath = path.join(key, FileNameAsConst.template);
+        const pdfDisplayFilePath = path.join(key, FileNameAsConst.display);
+        const imagePreviewFilePath = path.join(key, FileNameAsConst.preview);
+
         LocalFileInfra.writeFile(fileBuffer, docxTemplateFilePath);
-        LocalFileInfra.writeFile(fileBuffer, pdfDisplayFilePath);
-        LocalFileInfra.writeFile(fileBuffer, imagePreviewFilePath);
+
+        const pdfBuffer = await PDFExportInfra.generatePdfPreviewFromDocxBuffer(fileBuffer);
+        LocalFileInfra.writeFile(pdfBuffer, pdfDisplayFilePath);
+
+        const imagePreviewBuffer = await PDFToImageInfra.convertPdfToPngBufferByPageNumber(pdfBuffer, 1);
+        LocalFileInfra.writeFile(imagePreviewBuffer, imagePreviewFilePath);
         return { key };
     }
 

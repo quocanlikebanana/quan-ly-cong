@@ -9,6 +9,8 @@ import path from "path";
 
 const SERVER_FILE_PATH = path.resolve(process.cwd(), 'src', 'server', 'uploads');
 
+// D:\project\quan-ly-cong\quan-ly-cong\src\server\uploads
+
 export class LocalFileInfra {
     static readFile(
         /**
@@ -33,10 +35,11 @@ export class LocalFileInfra {
          */
         relativePath: string
     ): void {
-        if (!fs.existsSync(SERVER_FILE_PATH)) {
-            fs.mkdirSync(SERVER_FILE_PATH, { recursive: true });
+        const absolutePath = path.resolve(SERVER_FILE_PATH, relativePath);
+        const dirPath = path.dirname(absolutePath);
+        if (!fs.existsSync(dirPath)) {
+            fs.mkdirSync(dirPath, { recursive: true });
         }
-        const filePath = path.resolve(SERVER_FILE_PATH, relativePath);
-        fs.writeFileSync(filePath, fileContent, { encoding: 'base64' });
+        fs.writeFileSync(absolutePath, fileContent, { encoding: 'base64' });
     }
 }

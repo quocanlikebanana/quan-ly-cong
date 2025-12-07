@@ -2,13 +2,17 @@ import { CONSTANTS } from '@/lib/constants'
 import Image from 'next/image'
 import React from 'react'
 
-export default function HeaderLarge() {
+export default function HeaderLarge({
+    breadcrumbs,
+}: {
+    breadcrumbs?: React.ReactElement;
+}) {
     return (
-        <header className="bg-egyptian-blue-600 text-lavender-web-900 py-4 relative">
-            <div className="container mx-auto flex flex-col gap-4">
+        <header className="bg-egyptian-blue-400 text-lavender-web-900 py-4 relative">
+            <div className="container mx-auto flex flex-col">
                 <div className='flex flex-row items-center gap-6'>
                     <div>
-                        <Image src={CONSTANTS.public.logo.emblemOfVietnam} alt="Emblem of Vietnam" width={70} height={70} />
+                        <Image src={CONSTANTS.public.logo.logo} alt="Emblem of Vietnam" width={70} height={70} />
                     </div>
                     <div className='flex flex-col'>
                         <h1 className="text-2xl font-bold mb-1">Quản lý Văn bản Pháp lý</h1>
@@ -17,6 +21,12 @@ export default function HeaderLarge() {
                         </p>
                     </div>
                 </div>
+
+                {breadcrumbs && (
+                    <div className='mt-2 text-white' >
+                        {breadcrumbs}
+                    </div>
+                )}
             </div>
 
             {/* Background decorations */}

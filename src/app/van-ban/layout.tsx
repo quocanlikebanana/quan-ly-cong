@@ -17,7 +17,7 @@ export default function layout({
 				<HeaderLarge />
 				{header && breadcrumbs && (
 					<div className="sticky top-0 z-10 bg-lavender-web-800 border-b border-vista-blue-300 shadow-sm">
-						<div className="container mx-auto py-4 space-y-4">
+						<div className="container mx-auto pt-2 pb-4 space-y-4">
 							{breadcrumbs}
 							{header}
 						</div>

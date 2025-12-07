@@ -5,6 +5,8 @@ import { TemplateView } from '@/features/templates/types/template.view';
 import { Separator } from '@/components/ui/separator';
 import Image from 'next/image';
 import { TemplateFileService } from '@/services/template-file/template-file.service';
+import { FileUtils } from '@/lib/utils/file-utils';
+import { CONSTANTS } from '@/lib/constants';
 
 export default async function TemplateCard({
 	template
@@ -12,17 +14,23 @@ export default async function TemplateCard({
 	template: TemplateView;
 }) {
 	const imageBuffer = TemplateFileService.getInstance().readPreview(template.storage.key);
+	const imageBufferString = imageBuffer && FileUtils.arrayBufferToBase64(imageBuffer);
+
 	const createdDate = new Date(template.createdAt || Date.now());
 	const formattedDate = DateUtils.Formater.toBaseFormat(createdDate);
+
 
 	return (
 		<div className='w-full h-full border p-4 rounded-md hover:shadow-md hover:bg-blue-50 transition-all duration-300 group'>
 			<Image
-				src={imageBuffer ? `data:image/png;base64,${imageBuffer.toString()}` : '/images/template-placeholder.png'}
+				src={imageBufferString
+					? `data:image/png;base64,${imageBufferString}`
+					: CONSTANTS.public.placeholder.templatePlaceholder
+				}
 				alt={template.name}
 				width={400}
-				height={200}
-				className="w-full h-48 object-cover rounded-md mb-4 bg-muted"
+				height={400}
+				className="w-full h-96 object-cover rounded-md mb-4 bg-muted"
 			/>
 
 			<div className="flex items-center justify-between mb-2">

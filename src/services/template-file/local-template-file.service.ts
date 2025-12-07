@@ -39,17 +39,21 @@ export class LocalTemplateFileService {
     }
 
     readTemplate(key: string): ArrayBuffer | null {
-        const docxTemplateFilePath = path.resolve(key, FileNameAsConst.template);
+        const docxTemplateFilePath = path.join(key, FileNameAsConst.template);
         return LocalFileInfra.readFile(docxTemplateFilePath);
     }
 
     readDisplay(key: string): ArrayBuffer | null {
-        const pdfDisplayFilePath = path.resolve(key, FileNameAsConst.display);
-        return LocalFileInfra.readFile(pdfDisplayFilePath);
+        const pdfDisplayFilePath = path.join(key, FileNameAsConst.display);
+        console.log('Reading PDF display file from path:', pdfDisplayFilePath);
+        const arrayBuffer = LocalFileInfra.readFile(pdfDisplayFilePath);
+        console.log('Read PDF display file, size:', arrayBuffer ? arrayBuffer.byteLength : 'null');
+        return arrayBuffer;
     }
 
     readPreview(key: string): ArrayBuffer | null {
-        const imagePreviewFilePath = path.resolve(key, FileNameAsConst.preview);
-        return LocalFileInfra.readFile(imagePreviewFilePath);
+        const imagePreviewFilePath = path.join(key, FileNameAsConst.preview);
+        const arrayBuffer = LocalFileInfra.readFile(imagePreviewFilePath);
+        return arrayBuffer;
     }
 }

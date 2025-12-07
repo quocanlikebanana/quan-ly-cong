@@ -6,6 +6,9 @@ export const CONSTANTS = {
         },
         background: {
             trongDongDongSon: "/background/trong_dong_dong_son.svg",
+        },
+        placeholder: {
+            templatePlaceholder: "/placeholder/template-placeholder.png",
         }
     }
 } as const;

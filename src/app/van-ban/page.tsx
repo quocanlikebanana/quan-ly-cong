@@ -39,7 +39,10 @@ export default async function VanBanPage({
 				<VanBanLoadingOverlay />
 
 				{view === "grid" && (
-					<TemplateGrid templates={pagedTemplates.data} hasFiltered={hasFiltered} />
+					<TemplateGrid
+						hasFiltered={hasFiltered}
+						templates={pagedTemplates.data}
+					/>
 				)}
 				{view === "list" && (
 					<TemplateTable

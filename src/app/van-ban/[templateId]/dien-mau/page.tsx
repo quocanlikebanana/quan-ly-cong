@@ -25,10 +25,8 @@ export default async function FillTemplatePage({
     });
 
     return (
-        <div className="flex flex-col gap-6 min-h-screen py-8">
-            <main className="container mx-auto">
-                <FillTemplateForm template={template} sortedFields={sortedFields} />
-            </main>
+        <div className="container mx-auto flex flex-col gap-6 min-h-screen py-8">
+            <FillTemplateForm template={template} sortedFields={sortedFields} />
         </div>
     );
 }

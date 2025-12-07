@@ -28,7 +28,7 @@ export default async function VanBanPage({
 	const hasFiltered = Boolean(search);
 
 	return (
-		<div className='flex flex-col gap-4 min-h-screen pb-8'>
+		<div className='flex flex-col gap-4 min-h-screen pt-2 pb-8'>
 			<main className="container mx-auto flex-1 flex flex-col gap-4 w-full h-full relative">
 				<ResultsInfo
 					pagedResult={pagedTemplates}

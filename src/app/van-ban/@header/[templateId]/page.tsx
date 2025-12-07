@@ -15,7 +15,7 @@ export default async function page({ params }: { params: Promise<{ templateId: s
         <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
             <h1 className="text-3xl font-bold text-vista-blue-950">{template.name}</h1>
             <Button>
-                <Link href={routes.van_ban.id(templateId).FILL}>
+                <Link href={routes.van_ban.id(templateId).DIEN_MAU}>
                     Tạo văn bản từ mẫu này
                 </Link>
             </Button>

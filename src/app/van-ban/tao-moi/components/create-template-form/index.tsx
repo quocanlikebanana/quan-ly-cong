@@ -14,12 +14,12 @@ import {
     TemplateFields
 } from "./components";
 import { startTransition, useActionState, useCallback, useEffect } from "react";
-import { createTemplateAction } from "@/features/templates/actions/create-template/create-template.action";
-import { DEFAULT_SERVER_ACTION_RESPONSE } from "@/types/server-action-response";
+import { DEFAULT_SERVER_ACTION_RESPONSE } from "@/types/server-actions/server-action-response";
 import Spinner from "@/components/atoms/Spinner";
 import { routes } from "@/client/routes";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import createTemplateAction from "@/features/templates/actions/create-template/create-template.action";
 
 export default function CreateTemplateForm() {
     const [response, action, isLoading] = useActionState(createTemplateAction, DEFAULT_SERVER_ACTION_RESPONSE);

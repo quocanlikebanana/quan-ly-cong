@@ -4,7 +4,7 @@ export const routes = {
 		TAO_MOI: '/van-ban/tao-moi',
 		id: (templateId: string) => ({
 			INDEX: `/van-ban/${templateId}`,
-			FILL: `/van-ban/${templateId}/fill`,
+			DIEN_MAU: `/van-ban/${templateId}/dien-mau`,
 		} as const),
 	}
 } as const;

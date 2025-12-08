@@ -27,10 +27,10 @@ import {
 import { Check, ChevronDown, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { TAGS } from "../constants";
-import { CreateTemplateType } from "@/features/templates/actions/create-template/create-template.schema";
+import { CreateTemplateActionType } from "@/features/templates/actions/create-template/create-template.schema";
 
 interface TagsSelectProps {
-    control: Control<CreateTemplateType>;
+    control: Control<CreateTemplateActionType>;
 }
 
 export function TagsSelect({ control }: TagsSelectProps) {

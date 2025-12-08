@@ -9,10 +9,10 @@ import {
     FormMessage
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { CreateTemplateType } from "@/features/templates/actions/create-template/create-template.schema";
+import { CreateTemplateActionType } from "@/features/templates/actions/create-template/create-template.schema";
 
 interface TemplateNameInputProps {
-    control: Control<CreateTemplateType>;
+    control: Control<CreateTemplateActionType>;
 }
 
 export function TemplateNameInput({ control }: TemplateNameInputProps) {

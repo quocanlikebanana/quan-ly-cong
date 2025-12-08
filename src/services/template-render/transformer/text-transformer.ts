@@ -1,10 +1,10 @@
 import z from "zod";
-import { TextFieldRenderMetaType } from "../../../types/field-render-meta.schema";
-import { ITransformer } from "./transformer.i";
+import { IRenderTransformer } from "../common/render-transformer.i";
+import { RenderTextFieldMetaType } from "../common/render-fields.schema";
 
-export class TextTransformer implements ITransformer {
+export class TextTransformer implements IRenderTransformer {
     constructor(
-        private readonly meta: TextFieldRenderMetaType,
+        private readonly meta: RenderTextFieldMetaType,
     ) { }
 
     transform(value: unknown): unknown {

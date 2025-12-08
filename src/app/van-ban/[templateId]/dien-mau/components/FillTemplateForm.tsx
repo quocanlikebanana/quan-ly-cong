@@ -5,53 +5,69 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { TemplateDetailView, TemplateFieldView } from "@/features/templates/types/template.view";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Sparkles } from "lucide-react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
+import { FillTemplateActionType } from "@/features/templates/actions/fill-template/fill-template.schema";
+import { startTransition, useActionState, useCallback, useEffect } from "react";
+import fillTemplateAction from "@/features/templates/actions/fill-template/fill-template.action";
+import { FIELD_TYPES } from "@/features/templates/types/template.common";
+import Spinner from "@/components/atoms/Spinner";
 
 type FillTemplateFormProps = {
     template: TemplateDetailView;
-    sortedFields: TemplateFieldView[];
 };
 
-export default function FillTemplateForm({ sortedFields }: FillTemplateFormProps) {
+type FieldMapFormValues = {
+    [key: string]: string;
+};
 
-    // Create dynamic schema based on template fields
-    const formSchema = z.object(
-        sortedFields.reduce((acc, field) => {
-            acc[field.key] = z.string().optional();
-            return acc;
-        }, {} as Record<string, z.ZodOptional<z.ZodString>>)
-    );
-
-    type FormValues = z.infer<typeof formSchema>;
-
-    const form = useForm<FormValues>({
-        resolver: zodResolver(formSchema),
-        defaultValues: sortedFields.reduce((acc, field) => {
-            acc[field.key] = field.defaultValue
-                ? String(field.defaultValue)
-                : "";
-            return acc;
-        }, {} as Record<string, string>),
+export default function FillTemplateForm({ template }: FillTemplateFormProps) {
+    const fields: TemplateFieldView[] = template.fields;
+    const [response, action, isLoading] = useActionState(fillTemplateAction, {
+        error: undefined,
+        success: false,
     });
 
+    // Create default values for the form - simple key-value pairs
+    const defaultFieldValues = fields.reduce((acc, field) => {
+        acc[field.key] = (field.defaultValue as string) || "";
+        return acc;
+    }, {} as FieldMapFormValues);
 
-    // const handleSaveDraft = () => {
-    //     const values = form.getValues();
-    //     // TODO: Implement save draft functionality
-    //     console.log("Saving draft:", values);
-    //     toast.success("Đã lưu nháp thành công!");
-    // };
+    const form = useForm<FieldMapFormValues>({
+        defaultValues: defaultFieldValues
+    });
 
-    const handleGenerateDocument = async (data: FormValues) => {
-        // TODO: Implement document generation
-        console.log("Generating document with data:", data);
-        toast.success("Đang tạo văn bản...");
-    };
+    const handleGenerateDocument = useCallback((data: FieldMapFormValues) => {
+        // Transform the simple form data into the fieldMap structure expected by the schema
+        const fieldMap: FillTemplateActionType['fieldMap'] = {};
+
+        fields.forEach((field) => {
+            const value = data[field.key];
+            fieldMap[field.key] = {
+                type: FIELD_TYPES.text, // Default to text type for now
+                value: value || undefined,
+            };
+        });
+
+        const payload: FillTemplateActionType = {
+            templateId: template.id,
+            fieldMap,
+        };
+
+        startTransition(() => {
+            action(payload);
+        });
+    }, [action, fields, template.id]);
+
+    useEffect(() => {
+        if (response.success) {
+            form.reset(defaultFieldValues);
+            toast.success("Tạo văn bản thành công!");
+        }
+    }, [response.success, form, defaultFieldValues]);
 
     return (
         <Form {...form}>
@@ -65,11 +81,11 @@ export default function FillTemplateForm({ sortedFields }: FillTemplateFormProps
                         </CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-6">
-                        {sortedFields.map((field, index) => (
+                        {fields.map((field, index) => (
                             <FormField
                                 key={field.key}
                                 control={form.control}
-                                name={field.key as keyof FormValues}
+                                name={field.key}
                                 render={({ field: formField }) => (
                                     <FormItem>
                                         <FormLabel className="flex items-center gap-2">
@@ -103,21 +119,22 @@ export default function FillTemplateForm({ sortedFields }: FillTemplateFormProps
 
                 {/* Action Buttons */}
                 <div className="flex flex-col sm:flex-row gap-4 justify-end">
-                    {/* <Button
-                        type="button"
-                        variant="outline"
-                        onClick={handleSaveDraft}
-                        className="gap-2"
-                    >
-                        <Save className="w-4 h-4" />
-                        Lưu nháp
-                    </Button> */}
                     <Button
                         type="submit"
                         className="gap-2"
+                        disabled={isLoading}
                     >
-                        <Sparkles className="w-4 h-4" />
-                        Tạo văn bản
+                        {isLoading ? (
+                            <>
+                                <Spinner className="w-4 h-4" />
+                                Đang tạo văn bản
+                            </>
+                        ) : (
+                            <>
+                                <Sparkles className="w-4 h-4" />
+                                Tạo văn bản
+                            </>
+                        )}
                     </Button>
                 </div>
             </form>

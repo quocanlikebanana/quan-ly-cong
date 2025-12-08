@@ -1,7 +1,7 @@
 'use server';
 
 import { ServerActionResponse } from '@/types/server-actions/server-action-response';
-import { CreateTemplateType, CreateTemplateSchema } from '@/features/templates/actions/create-template/create-template.schema';
+import { CreateTemplateActionType, CreateTemplateActionSchema } from '@/features/templates/actions/create-template/create-template.schema';
 import { revalidatePath } from 'next/cache';
 import { TemplateMongoRepository } from '@/models/template-model/mongo-repo';
 import { routes } from '@/client/routes';
@@ -15,7 +15,7 @@ import { ServerActionBuilder } from '@/types/server-actions/server-action-builde
  * @returns Promise<CreateTemplateResponse> - The result of the operation
  */
 
-const _createTemplateAction = async (_: unknown, payload: CreateTemplateType): Promise<ServerActionResponse> => {
+const _createTemplateAction = async (_: unknown, payload: CreateTemplateActionType): Promise<ServerActionResponse> => {
 	// Save files (local or s3)
 	const { key } = await TemplateFileService.getInstance().write(payload.file)
 
@@ -40,7 +40,7 @@ const _createTemplateAction = async (_: unknown, payload: CreateTemplateType): P
 }
 
 const createTemplateAction = ServerActionBuilder.init(_createTemplateAction)
-	.withParamsValidator(CreateTemplateSchema)
+	.withParamsValidator(CreateTemplateActionSchema)
 	.withTryCatch()
 	.build();
 

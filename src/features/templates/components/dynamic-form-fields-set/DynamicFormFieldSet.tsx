@@ -1,21 +1,21 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import { TemplateCommonField, TemplateValues } from "../../types/field-schema"
+import { TemplateFieldDtoType, TemplateFieldMapDtoType } from "../../types/template.dto"
 import DynamicFormField from "../dynamic-form-field/DynamicFormField";
 
 export default function DynamicFormFieldSet({
     templateFields,
 }: {
-    templateFields: TemplateCommonField[];
+    templateFields: TemplateFieldDtoType[];
 }) {
-    const [templateValues, setTemplateValues] = useState<TemplateValues>(templateFields.reduce((acc, field) => {
+    const [templateValues, setTemplateValues] = useState<TemplateFieldMapDtoType>(templateFields.reduce((acc, field) => {
         acc[field.key] = {
             type: field.type,
             value: undefined,
         };
         return acc;
-    }, {} as TemplateValues));
+    }, {} as TemplateFieldMapDtoType));
 
     const handleFieldDataChange = useCallback((key: string, value: unknown) => {
         setTemplateValues((prev) => prev[key] != null ? ({

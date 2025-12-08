@@ -1,13 +1,13 @@
 import z from "zod";
-import { ArrayFieldRenderMetaType } from "../../../types/field-render-meta.schema";
-import { ITransformer } from "./transformer.i";
+import { IRenderTransformer } from "../common/render-transformer.i";
+import { RenderArrayFieldMetaType } from "../common/render-fields.schema";
 
 /**
  * Apply prefix and suffix to each string item in the array
  */
-export class ArrayTransformer implements ITransformer {
+export class ArrayTransformer implements IRenderTransformer {
     constructor(
-        private readonly meta: ArrayFieldRenderMetaType
+        private readonly meta: RenderArrayFieldMetaType
     ) { }
 
     transform(value: unknown): unknown {

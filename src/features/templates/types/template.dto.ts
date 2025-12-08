@@ -1,15 +1,8 @@
 import z from "zod";
+import { FIELD_TYPES, TemplateFieldEnumDtoSchema } from "./template.common";
 
-export const FIELD_TYPES = {
-    text: "text",
-    date: "date",
-    array: "array",
-} as const;
-
-export const TemplateFieldEnumSchema = z.enum([FIELD_TYPES.text, FIELD_TYPES.date, FIELD_TYPES.array]);
-
-export const TemplateFieldSchema = z.object({
-    type: TemplateFieldEnumSchema,
+export const TemplateFieldDtoSchema = z.object({
+    type: TemplateFieldEnumDtoSchema,
     key: z.string(),
     label: z.string().min(1, "Label is required"),
     description: z.string().optional(),
@@ -20,13 +13,13 @@ export const TemplateFieldSchema = z.object({
     uiMetadata: z.record(z.string(), z.unknown()).optional(),
     renderMetadata: z.record(z.string(), z.unknown()).optional(),
 });
-export type TemplateCommonField = z.infer<typeof TemplateFieldSchema>;
+export type TemplateFieldDtoType = z.infer<typeof TemplateFieldDtoSchema>;
 
 
-export const TemplateValuesSchema = z.record(z.string(), z.object({
+export const TemplateFieldMapDtoSchema = z.record(z.string(), z.object({
     type: z.enum([FIELD_TYPES.text, FIELD_TYPES.date, FIELD_TYPES.array]),
     value: z.unknown().optional(),
     renderMetadata: z.record(z.string(), z.unknown()).optional(),
 }));
-export type TemplateValues = z.infer<typeof TemplateValuesSchema>;
+export type TemplateFieldMapDtoType = z.infer<typeof TemplateFieldMapDtoSchema>;
 

@@ -11,10 +11,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { FileText, Upload, X } from "lucide-react";
-import { CreateTemplateType } from "@/features/templates/actions/create-template/create-template.schema";
+import { CreateTemplateActionType } from "@/features/templates/actions/create-template/create-template.schema";
 
 interface FileUploadProps {
-    control: Control<CreateTemplateType>;
+    control: Control<CreateTemplateActionType>;
 }
 
 export function FileUpload({ control }: FileUploadProps) {

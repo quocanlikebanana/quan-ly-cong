@@ -1,13 +1,13 @@
 import { DateOnlySchema } from "@/features/shared/date.type";
-import { DateFieldRenderMetaType } from "../../../types/field-render-meta.schema";
-import { ITransformer } from "./transformer.i";
+import { IRenderTransformer } from "../common/render-transformer.i";
+import { RenderDateFieldMetaType } from "../common/render-fields.schema";
 
 /**
  * Transform dateOnly to formatted string
  */
-export class DateTransformer implements ITransformer {
+export class DateTransformer implements IRenderTransformer {
     constructor(
-        private readonly meta: DateFieldRenderMetaType,
+        private readonly meta: RenderDateFieldMetaType,
     ) { }
 
     transform(value: unknown): unknown {

@@ -1,7 +1,8 @@
 "use client";
 
 import React from "react";
-import { FIELD_TYPES, TemplateValues, TemplateCommonField } from "../../types/field-schema";
+import { TemplateFieldMapDtoType, TemplateFieldDtoType } from "../../types/template.dto";
+import { FIELD_TYPES } from "../../types/template.common";
 import TextFieldTemplate from "./fields/TextFieldTemplate";
 import DateFieldTemplate from "./fields/DateFieldTemplate";
 import ArrayFieldTemplate from "./fields/ArrayFieldTemplate";
@@ -13,8 +14,8 @@ export default function DynamicFormField({
     templateValues,
     onFieldDataChange,
 }: {
-    itemSchema: TemplateCommonField;
-    templateValues: TemplateValues;
+    itemSchema: TemplateFieldDtoType;
+    templateValues: TemplateFieldMapDtoType;
     onFieldDataChange: (key: string, value: unknown) => void;
 }) {
     let FieldComponent = null;

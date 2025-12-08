@@ -1,12 +1,12 @@
 import z from "zod";
-import { TemplateFieldSchema } from "../../types/field-schema";
+import { TemplateFieldDtoSchema } from "../../types/template.dto";
 
-const TemplateFieldCoreSchema = TemplateFieldSchema.extend({
+const TemplateFieldCoreSchema = TemplateFieldDtoSchema.extend({
 	key: z.string().min(1, "Khóa là bắt buộc"),
 	label: z.string().min(1, "Nhãn là bắt buộc"),
 });
 
-export const CreateTemplateSchema = z.object({
+export const CreateTemplateActionSchema = z.object({
 	name: z.string().min(1, 'Tên mẫu là bắt buộc'),
 	description: z.string().optional(),
 	category: z.string().optional(),
@@ -18,5 +18,5 @@ export const CreateTemplateSchema = z.object({
 	fields: z.array(TemplateFieldCoreSchema).min(1, 'Vui lòng thêm ít nhất một trường vào mẫu'),
 });
 
-export type CreateTemplateType = z.infer<typeof CreateTemplateSchema>;
+export type CreateTemplateActionType = z.infer<typeof CreateTemplateActionSchema>;
 

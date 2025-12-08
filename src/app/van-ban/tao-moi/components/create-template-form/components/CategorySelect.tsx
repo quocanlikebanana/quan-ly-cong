@@ -26,10 +26,10 @@ import {
 import { Check, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { CATEGORIES, TemplateCategoryType } from "../constants";
-import { CreateTemplateType } from "@/features/templates/actions/create-template/create-template.schema";
+import { CreateTemplateActionType } from "@/features/templates/actions/create-template/create-template.schema";
 
 interface CategorySelectProps {
-    control: Control<CreateTemplateType>;
+    control: Control<CreateTemplateActionType>;
 }
 
 export function CategorySelect({ control }: CategorySelectProps) {

@@ -1,43 +1,43 @@
 'use server';
 
 import { ServerActionResponse } from '@/types/server-actions/server-action-response';
-import { ZodUtils } from '@/lib/utils/zod-utils';
-import { FillTemplateType, FillTemplateSchema } from '@/features/templates/actions/fill-template/fill-template.schema';
-import { FileTransport } from '@/infra/file-transport';
+import { FillTemplateActionSchema, FillTemplateActionType } from '@/features/templates/actions/fill-template/fill-template.schema';
 import { TemplateMongoRepository } from '@/models/template-model/mongo-repo';
-import { DocumentGenerator } from '@/lib/document-generator/document-generator';
 import { ServerActionBuilder } from '@/types/server-actions/server-action-builder';
-
+import { TemplateFileService } from '@/services/template-file/template-file.service';
+import { TemplateRenderService } from '@/services/template-render/template-render.service';
+import { FileUtils } from '@/lib/utils/file-utils';
 
 /** 
  * Server action to fill a template with provided data
  */
-const _fillTemplateAction = async (_: unknown, payload: FillTemplateType): Promise<ServerActionResponse> => {
+const _fillTemplateAction = async (_: unknown, payload: FillTemplateActionType): Promise<ServerActionResponse<Buffer>> => {
     const repo = new TemplateMongoRepository();
-    const template = await repo.findById(payload.data.templateId);
+    const template = await repo.findById(payload.templateId);
     if (!template) {
         return {
             success: false,
             error: 'Mẫu văn bản không tồn tại',
         };
     }
-    // Read the template file
-    const fileContentBase64 = await FileTransport.readDocxFile(template.storage.path, template.storage.storageType);
-    const fileBuffer = Buffer.from(fileContentBase64, 'base64');
-    // Generate the filled document
-    const filledDocumentBuffer = await DocumentGenerator.fillTemplate(fileBuffer, parsedPayload.data.fields);
-    const filledDocumentBase64 = filledDocumentBuffer.toString('base64');
+    const docxBuffer = TemplateFileService.getInstance().readTemplate(template.storage.key);
+    if (!docxBuffer) {
+        return {
+            success: false,
+            error: 'Không thể đọc tệp mẫu văn bản',
+        };
+    }
+    const docxBufferStr = FileUtils.arrayBufferToBase64(docxBuffer);
+
+    const renderedDocxBuffer = TemplateRenderService.render(payload.fieldMap, docxBufferStr);
     return {
         success: true,
-        data: {
-            file: filledDocumentBase64,
-            fileName: `filled-${template.name}.docx`,
-        },
+        data: renderedDocxBuffer,
     };
 }
 
 const fillTemplateAction = ServerActionBuilder.init(_fillTemplateAction)
-    .withParamsValidator(FillTemplateSchema)
+    .withParamsValidator(FillTemplateActionSchema)
     .withTryCatch()
     .build();
 

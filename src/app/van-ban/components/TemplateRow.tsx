@@ -29,10 +29,12 @@ export default function TemplateRow({
                 {template.name}
             </TableCell>
             <TableCell>
-                {template.category && (
+                {template.category ? (
                     <Badge variant="outline">
                         {template.category}
                     </Badge>
+                ) : (
+                    <span className='text-muted-foreground'>—</span>
                 )}
             </TableCell>
             <TableCell className='text-muted-foreground line-clamp-1 max-w-xs'>

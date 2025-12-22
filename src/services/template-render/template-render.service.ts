@@ -3,7 +3,7 @@ import { DocxRenderInfra } from "@/infra/docx-render/docx-render.infra";
 import { RenderTransformerFactory } from "./common/render-transformer.factory";
 
 export class TemplateRenderService {
-    static render(values: TemplateFieldMapDtoType, docFileBinary: string): Buffer<ArrayBufferLike> {
+    static render(values: TemplateFieldMapDtoType, docFileBinary: ArrayBuffer): Buffer<ArrayBufferLike> {
         const json: Record<string, unknown> = {};
         Object.entries(values).forEach(([key, { type, value, renderMetadata }]) => {
             const transformer = RenderTransformerFactory.create(type, renderMetadata);

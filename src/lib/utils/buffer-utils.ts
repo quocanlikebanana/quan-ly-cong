@@ -1,4 +1,4 @@
-export class FileUtils {
+export class BufferUtils {
     static base64ToBinary(base64: string): string {
         const binaryString = atob(base64);
         return binaryString;

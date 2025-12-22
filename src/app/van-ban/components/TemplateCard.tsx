@@ -5,8 +5,8 @@ import { TemplateView } from '@/features/templates/types/template.view';
 import { Separator } from '@/components/ui/separator';
 import Image from 'next/image';
 import { TemplateFileService } from '@/services/template-file/template-file.service';
-import { FileUtils } from '@/lib/utils/file-utils';
-import { CONSTANTS } from '@/lib/constants';
+import { BufferUtils } from '@/lib/utils/buffer-utils';
+import { CONSTANTS } from '@/lib/const/constants';
 
 export default async function TemplateCard({
 	template
@@ -14,11 +14,10 @@ export default async function TemplateCard({
 	template: TemplateView;
 }) {
 	const imageBuffer = TemplateFileService.getInstance().readPreview(template.storage.key);
-	const imageBufferString = imageBuffer && FileUtils.arrayBufferToBase64(imageBuffer);
+	const imageBufferString = imageBuffer && BufferUtils.arrayBufferToBase64(imageBuffer);
 
 	const createdDate = new Date(template.createdAt || Date.now());
 	const formattedDate = DateUtils.Formater.toBaseFormat(createdDate);
-
 
 	return (
 		<div className='w-full h-full border p-4 rounded-md hover:shadow-md hover:bg-blue-50 transition-all duration-300 group'>

@@ -27,11 +27,11 @@ export default function TemplateTable({
 		<Table>
 			<TableHeader>
 				<TableRow>
-					<TableHead>Name</TableHead>
-					<TableHead>Category</TableHead>
-					<TableHead>Description</TableHead>
-					<TableHead>Tags</TableHead>
-					<TableHead className="text-right">Created</TableHead>
+					<TableHead>Tên mẫu</TableHead>
+					<TableHead>Loại</TableHead>
+					<TableHead>Mô tả</TableHead>
+					<TableHead>Thẻ</TableHead>
+					<TableHead className="text-right">Ngày tạo</TableHead>
 				</TableRow>
 			</TableHeader>
 			<TableBody>

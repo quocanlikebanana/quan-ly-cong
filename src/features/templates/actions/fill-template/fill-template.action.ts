@@ -6,12 +6,13 @@ import { TemplateMongoRepository } from '@/models/template-model/mongo-repo';
 import { ServerActionBuilder } from '@/types/server-actions/server-action-builder';
 import { TemplateFileService } from '@/services/template-file/template-file.service';
 import { TemplateRenderService } from '@/services/template-render/template-render.service';
-import { FileUtils } from '@/lib/utils/file-utils';
+import { RandomUtils } from '@/lib/utils/random-utils';
+import { TempFileBufferInfra } from '@/infra/temp-file-buffer/temp-file-buffer.infra';
 
 /** 
  * Server action to fill a template with provided data
  */
-const _fillTemplateAction = async (_: unknown, payload: FillTemplateActionType): Promise<ServerActionResponse<Buffer>> => {
+const _fillTemplateAction = async (_: unknown, payload: FillTemplateActionType): Promise<ServerActionResponse<{ tempFileName: string }>> => {
     const repo = new TemplateMongoRepository();
     const template = await repo.findById(payload.templateId);
     if (!template) {
@@ -27,12 +28,17 @@ const _fillTemplateAction = async (_: unknown, payload: FillTemplateActionType):
             error: 'Không thể đọc tệp mẫu văn bản',
         };
     }
-    const docxBufferStr = FileUtils.arrayBufferToBase64(docxBuffer);
 
-    const renderedDocxBuffer = TemplateRenderService.render(payload.fieldMap, docxBufferStr);
+    const renderedDocxBuffer = TemplateRenderService.render(payload.fieldMap, docxBuffer);
+    const uuid = RandomUtils.generateRandomUUID();
+    const tempFileName = `${uuid}-${template.name}.docx`;
+    await TempFileBufferInfra.getInstance().writeFileBuffer(tempFileName, renderedDocxBuffer);
+
     return {
         success: true,
-        data: renderedDocxBuffer,
+        data: {
+            tempFileName,
+        },
     };
 }
 

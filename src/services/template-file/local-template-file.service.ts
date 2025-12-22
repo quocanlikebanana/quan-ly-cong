@@ -40,7 +40,8 @@ export class LocalTemplateFileService {
 
     readTemplate(key: string): ArrayBuffer | null {
         const docxTemplateFilePath = path.join(key, FileNameAsConst.template);
-        return LocalFileInfra.readFile(docxTemplateFilePath);
+        const file = LocalFileInfra.readFile(docxTemplateFilePath);
+        return file;
     }
 
     readDisplay(key: string): ArrayBuffer | null {

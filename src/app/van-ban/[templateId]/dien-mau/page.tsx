@@ -17,16 +17,11 @@ export default async function FillTemplatePage({
         notFound();
     }
 
-    // Sort fields by order
-    const sortedFields = [...template.fields].sort((a, b) => {
-        const orderA = a.order ?? Number.MAX_SAFE_INTEGER;
-        const orderB = b.order ?? Number.MAX_SAFE_INTEGER;
-        return orderA - orderB;
-    });
-
     return (
         <div className="container mx-auto flex flex-col gap-6 min-h-screen py-8">
-            <FillTemplateForm template={template} sortedFields={sortedFields} />
+            <FillTemplateForm
+                template={template}
+            />
         </div>
     );
 }

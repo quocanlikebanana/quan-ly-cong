@@ -1,4 +1,4 @@
-import { CONSTANTS } from '@/lib/constants'
+import { CONSTANTS } from '@/lib/const/constants'
 import Image from 'next/image'
 import React from 'react'
 

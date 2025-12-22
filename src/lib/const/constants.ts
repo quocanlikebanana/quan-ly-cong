@@ -1,3 +1,6 @@
+import { cwd } from "process";
+import path from "path";
+
 export const CONSTANTS = {
     public: {
         logo: {
@@ -10,5 +13,8 @@ export const CONSTANTS = {
         placeholder: {
             templatePlaceholder: "/placeholder/template-placeholder.png",
         }
+    },
+    server: {
+        tempDir: path.join(cwd(), "src", "server", "temp"),
     }
 } as const;

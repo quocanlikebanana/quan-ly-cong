@@ -10,10 +10,11 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { FillTemplateActionType } from "@/features/templates/actions/fill-template/fill-template.schema";
-import { startTransition, useActionState, useCallback, useEffect } from "react";
+import { startTransition, useActionState, useCallback, useEffect, useMemo, useRef } from "react";
 import fillTemplateAction from "@/features/templates/actions/fill-template/fill-template.action";
 import { FIELD_TYPES } from "@/features/templates/types/template.common";
 import Spinner from "@/components/atoms/Spinner";
+import useDownloadTempFile from "@/client/hooks/useDownloadTempFile";
 
 type FillTemplateFormProps = {
     template: TemplateDetailView;
@@ -24,17 +25,24 @@ type FieldMapFormValues = {
 };
 
 export default function FillTemplateForm({ template }: FillTemplateFormProps) {
-    const fields: TemplateFieldView[] = template.fields;
+    const fields: TemplateFieldView[] = template.fields.sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+    const { downloadFile } = useDownloadTempFile();
+
+    // Prevent multiple download attempts
+    const isFileDownloadedRef = useRef(false);
+
     const [response, action, isLoading] = useActionState(fillTemplateAction, {
         error: undefined,
         success: false,
     });
 
     // Create default values for the form - simple key-value pairs
-    const defaultFieldValues = fields.reduce((acc, field) => {
-        acc[field.key] = (field.defaultValue as string) || "";
-        return acc;
-    }, {} as FieldMapFormValues);
+    const defaultFieldValues = useMemo(() => {
+        return fields.reduce((acc, field) => {
+            acc[field.key] = (field.defaultValue as string) || "";
+            return acc;
+        }, {} as FieldMapFormValues)
+    }, [fields]);
 
     const form = useForm<FieldMapFormValues>({
         defaultValues: defaultFieldValues
@@ -60,14 +68,28 @@ export default function FillTemplateForm({ template }: FillTemplateFormProps) {
         startTransition(() => {
             action(payload);
         });
+        isFileDownloadedRef.current = false;
     }, [action, fields, template.id]);
 
     useEffect(() => {
+        const handleFileDownload = async () => {
+            if (isFileDownloadedRef.current === true) return;
+            if (response.success) {
+                try {
+                    await downloadFile(response.data.tempFileName, `${template.name}.docx`);
+                    isFileDownloadedRef.current = true;
+                }
+                catch (error) {
+                    console.error("Error downloading generated document:", error);
+                    toast.error("Tải về văn bản thất bại. Vui lòng thử lại.");
+                }
+            }
+        };
         if (response.success) {
-            form.reset(defaultFieldValues);
             toast.success("Tạo văn bản thành công!");
+            handleFileDownload();
         }
-    }, [response.success, form, defaultFieldValues]);
+    }, [response, form, defaultFieldValues, downloadFile, template.name]);
 
     return (
         <Form {...form}>
